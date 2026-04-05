@@ -51,5 +51,11 @@
     "contactAddress": "Dhaka, Bangladesh",
     "copyright": "© 2026 Grameen Bazar. All rights reserved.",
     "madeWithLove": "Made with ❤️ in Bangladesh"
+  },
+  "NotFoundPage": {
+    "title": "Oops! Page Not Found",
+    "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "backToHome": "Back to Home",
+    "shopNow": "Shop Now"
   }
 }

@@ -29,7 +29,7 @@ export default function FeatureBar() {
 
   return (
     <div className="bg-earth-pale border-b border-border px-5 py-4">
-      <div className="container flex justify-around flex-wrap gap-3">
+      <div className="container flex justify-between flex-wrap gap-3">
         {features.map((item, index) => (
           <div
             key={index}

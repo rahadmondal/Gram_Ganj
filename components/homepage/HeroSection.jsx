@@ -44,7 +44,7 @@ const HeroSection = () => {
         <circle cx="200" cy="200" r="40" stroke="white" strokeWidth="1" />
       </svg>
 
-      <div className="max-w-275 mx-auto px-5 py-15 grid grid-cols-2 gap-15 items-center relative z-2 max-[900px]:grid-cols-1">
+      <div className="container py-15 grid grid-cols-2 gap-15 items-center relative z-2 max-[900px]:grid-cols-1">
         <div>
           <div className="inline-flex items-center gap-2 bg-white/12 border border-white/20 text-[#c8e6b8] text-xs font-semibold px-3.5 py-1.5 rounded-[30px] tracking-wider uppercase mb-6">
             {t("heroBadge")}
