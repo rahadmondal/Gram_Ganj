@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>গ্রামীণ বাজার — Grameen Bazar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-green-deep: #2d5a27;
+    --color-green-mid: #4a7c3f;
+    --color-green-light: #7daf6a;
+    --color-green-pale: #e8f0e5;
+    --color-earth-dark: #5c3d1e;
+    --color-earth-mid: #8b5e3c;
+    --color-earth-light: #c4956a;
+    --color-earth-pale: #f5ede3;
+    --color-cream: #fdf8f2;
+    --color-text-dark: #1a1a1a;
+    --color-text-mid: #4a4a4a;
+    --color-text-light: #888;
+    --color-border: #e2d8cc;
+    --color-accent: #d4691e;
+    --color-red-soft: #c0392b;
+    --color-star: #f4a61a;
+
+    --font-hind: 'Hind Siliguri', sans-serif;
+    --font-noto: 'Noto Serif Bengali', serif;
+    --font-playfair: 'Playfair Display', serif;
+
+    --shadow-soft: 0 2px 12px rgba(93,61,30,0.12);
+    --shadow-md: 0 12px 32px rgba(93,61,30,0.18);
+  }
+
+  body {
+    font-family: var(--font-hind);
+    background-color: var(--color-cream);
+    color: var(--color-text-dark);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-cream); }
+  ::-webkit-scrollbar-thumb { background: var(--color-earth-light); border-radius: 3px; }
+
+  .font-noto { font-family: var(--font-noto); }
+  .font-playfair { font-family: var(--font-playfair); }
+
+  /* Nav active */
+  .nav-link:hover { background-color: var(--color-green-pale); color: var(--color-green-deep); }
+
+  /* Hero CTA buttons */
+  .btn-primary:hover { background-color: var(--color-accent); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+  .btn-outline:hover { background-color: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+
+  /* Category cards */
+  .cat-card::before { content:''; position:absolute; inset:0; background:var(--color-green-deep); opacity:0; transition: opacity 0.25s; }
+  .cat-card:hover::before { opacity: 0.04; }
+  .cat-card:hover { border-color: var(--color-green-mid); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+  /* Product cards */
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(93,61,30,0.18); }
+
+  /* Story content */
+  .story-list li { border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+  /* Maker card */
+  .maker-card:hover { background-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
+
+  /* Mission card */
+  .mission-card:hover { border-color: var(--color-green-mid); transform: translateY(-3px); box-shadow: var(--shadow-soft); }
+
+  /* Review card */
+  .review-avatar { background-color: var(--color-green-pale); }
+
+  /* Form inputs */
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--color-green-mid); box-shadow: 0 0 0 3px rgba(74,124,63,0.1); }
+
+  /* Social buttons */
+  .social-btn:hover { background-color: rgba(255,255,255,0.15); }
+
+  /* Footer links */
+  .footer-link:hover { color: var(--color-earth-light); }
+
+  /* Toast */
+  .toast { transform: translateX(-50%) translateY(100px); }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Cart panel */
+  .cart-panel { transform: translateX(100%); transition: transform 0.3s ease; }
+  .cart-panel.open { transform: translateX(0); }
+
+  /* Modal overlay */
+  .modal-overlay { display: none; }
+  .modal-overlay.open { display: flex; }
+  .cart-overlay { display: none; }
+  .cart-overlay.open { display: block; }
+
+  /* Btn submit hover */
+  .btn-submit:hover { background-color: var(--color-green-mid); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(45,90,39,0.3); }
+  .btn-buy:hover { background-color: #b8521a; }
+  .btn-add-modal:hover { background-color: var(--color-green-mid); }
+  .btn-cart-nav:hover { background-color: var(--color-green-mid); }
+  .btn-add:hover { background-color: var(--color-green-mid); }
+  .btn-checkout:hover { background-color: var(--color-green-mid); }
+  .qty-btn:hover { background-color: var(--color-green-pale); }
+</style>
+</head>
+<body class="text-base leading-relaxed">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="bg-white border-b-2 border-green-pale sticky top-0 z-[100]" style="box-shadow: var(--shadow-soft)">
+  <div class="max-w-[1100px] mx-auto px-5 flex items-center justify-between h-16">
+    <a href="#" class="flex items-center gap-2.5 no-underline">
+      <div class="w-10 h-10 bg-green-deep rounded-full flex items-center justify-center text-xl">🌿</div>
+      <div class="flex flex-col leading-tight">
+        <span class="font-noto text-[17px] font-bold text-green-deep">গ্রামীণ বাজার</span>
+        <span class="text-[11px] text-earth-mid font-medium tracking-widest uppercase">Grameen Bazar</span>
+      </div>
+    </a>
+    <ul class="flex gap-1.5 list-none max-[900px]:hidden">
+      <li><a href="#categories" class="nav-link no-underline text-text-mid text-sm font-medium px-3.5 py-2 rounded-lg transition-all duration-200">পণ্য সমূহ</a></li>
+      <li><a href="#products" class="nav-link no-underline text-text-mid text-sm font-medium px-3.5 py-2 rounded-lg transition-all duration-200">জনপ্রিয়</a></li>
+      <li><a href="#custom" class="nav-link no-underline text-text-mid text-sm font-medium px-3.5 py-2 rounded-lg transition-all duration-200">কাস্টম অর্ডার</a></li>
+      <li><a href="#about" class="nav-link no-underline text-text-mid text-sm font-medium px-3.5 py-2 rounded-lg transition-all duration-200">আমাদের গল্প</a></li>
+    </ul>
+    <div class="flex gap-2 items-center">
+      <button class="btn-cart-nav bg-green-deep text-white border-none px-4 py-2.5 rounded-xl text-sm font-semibold cursor-pointer flex items-center gap-1.5 transition-colors duration-200 relative" onclick="openCart()">
+        🛒 কার্ট
+        <span class="bg-accent text-white text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center absolute -top-1.5 -right-1.5" id="cartBadge">0</span>
+      </button>
+      <div class="hidden flex-col gap-[5px] cursor-pointer p-1.5 max-[900px]:flex" onclick="alert('মোবাইল মেনু')">
+        <span class="w-6 h-[2px] bg-green-deep rounded-sm block"></span>
+        <span class="w-6 h-[2px] bg-green-deep rounded-sm block"></span>
+        <span class="w-6 h-[2px] bg-green-deep rounded-sm block"></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="bg-green-deep relative overflow-hidden min-h-[88vh] flex items-center" id="home">
+  <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 50%, rgba(125,175,106,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(196,149,106,0.12) 0%, transparent 40%);"></div>
+  <svg class="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[480px] h-[480px] opacity-[0.08]" viewBox="0 0 400 400" fill="none">
+    <ellipse cx="200" cy="200" rx="160" ry="80" stroke="white" stroke-width="1"/>
+    <ellipse cx="200" cy="200" rx="80" ry="160" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="200" r="160" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="200" r="100" stroke="white" stroke-width="1"/>
+    <circle cx="200" cy="200" r="40" stroke="white" stroke-width="1"/>
+  </svg>
+  <div class="max-w-[1100px] mx-auto px-5 py-[60px] grid grid-cols-2 gap-[60px] items-center relative z-[2] max-[900px]:grid-cols-1">
+    <div>
+      <div class="inline-flex items-center gap-2 bg-white/[0.12] border border-white/20 text-[#c8e6b8] text-xs font-semibold px-3.5 py-1.5 rounded-[30px] tracking-wider uppercase mb-6">🌾 ১০০% হাতে তৈরি · Made in Village</div>
+      <h1 class="font-noto text-[clamp(30px,5vw,52px)] text-white leading-[1.25] mb-3 font-bold">
+        গ্রামের হাতে তৈরি,<br>
+        <span class="text-earth-light italic font-playfair">আপনার জন্য</span>
+      </h1>
+      <p class="text-[18px] text-white/75 mb-2.5 font-light">বাংলাদেশের গ্রামের দক্ষ কারিগরদের হাতে তৈরি পণ্য সরাসরি আপনার দরজায়</p>
+      <p class="text-[13px] text-white/50 mb-9 italic"><em>Authentic handmade products from Bangladesh's villages, delivered to your door</em></p>
+      <div class="flex gap-3 flex-wrap max-[600px]:flex-col">
+        <a href="#products" class="btn-primary bg-earth-light text-white border-none px-7 py-4 rounded-xl text-base font-bold font-hind cursor-pointer transition-all duration-200 no-underline inline-flex items-center gap-2 min-h-[52px] max-[600px]:w-full max-[600px]:justify-center">🛍️ এখনই কিনুন</a>
+        <a href="#about" class="btn-outline bg-transparent text-white border-2 border-white/35 px-6 py-4 rounded-xl text-[15px] font-semibold font-hind cursor-pointer transition-all duration-200 no-underline inline-flex items-center gap-2 min-h-[52px] max-[600px]:w-full max-[600px]:justify-center">🎥 আমাদের গল্প দেখুন</a>
+      </div>
+      <div class="flex gap-8 mt-12 pt-8 border-t border-white/[0.12] max-[600px]:gap-4">
+        <div><div class="font-playfair text-[28px] font-bold text-earth-light">৫০০+</div><div class="text-xs text-white/55 font-medium uppercase tracking-[0.5px]">কারিগর</div></div>
+        <div><div class="font-playfair text-[28px] font-bold text-earth-light">৬৪</div><div class="text-xs text-white/55 font-medium uppercase tracking-[0.5px]">জেলা</div></div>
+        <div><div class="font-playfair text-[28px] font-bold text-earth-light">১২০০০+</div><div class="text-xs text-white/55 font-medium uppercase tracking-[0.5px]">সন্তুষ্ট ক্রেতা</div></div>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3 rounded-[20px] overflow-hidden max-[900px]:hidden">
+      <div class="bg-white/[0.06] rounded-xl overflow-hidden flex items-center justify-center text-[72px] relative border border-white/[0.08] row-span-2">🧵<span class="absolute bottom-2.5 left-2.5 right-2.5 bg-black/50 text-white text-xs font-semibold px-2.5 py-1.5 rounded-md text-center">হাতে বোনা কাপড়</span></div>
+      <div class="bg-white/[0.06] rounded-xl overflow-hidden flex items-center justify-center text-[48px] relative border border-white/[0.08] h-[200px]">🏺<span class="absolute bottom-2.5 left-2.5 right-2.5 bg-black/50 text-white text-xs font-semibold px-2.5 py-1.5 rounded-md text-center">মাটির পাত্র</span></div>
+      <div class="bg-white/[0.06] rounded-xl overflow-hidden flex items-center justify-center text-[48px] relative border border-white/[0.08] h-[200px]">🍿<span class="absolute bottom-2.5 left-2.5 right-2.5 bg-black/50 text-white text-xs font-semibold px-2.5 py-1.5 rounded-md text-center">গ্রামীণ খাবার</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRUST BAR ─── -->
+<div class="bg-earth-pale border-b border-border px-5 py-4">
+  <div class="max-w-[1100px] mx-auto flex justify-around flex-wrap gap-3">
+    <div class="flex items-center gap-2.5 text-[13px] font-semibold text-earth-dark"><div class="text-xl w-9 h-9 bg-white rounded-lg flex items-center justify-center" style="box-shadow: var(--shadow-soft)">🚚</div> ক্যাশ অন ডেলিভারি (COD)</div>
+    <div class="flex items-center gap-2.5 text-[13px] font-semibold text-earth-dark"><div class="text-xl w-9 h-9 bg-white rounded-lg flex items-center justify-center" style="box-shadow: var(--shadow-soft)">🔄</div> ৭ দিনের রিটার্ন পলিসি</div>
+    <div class="flex items-center gap-2.5 text-[13px] font-semibold text-earth-dark"><div class="text-xl w-9 h-9 bg-white rounded-lg flex items-center justify-center" style="box-shadow: var(--shadow-soft)">✅</div> ১০০% খাঁটি পণ্য গ্যারান্টি</div>
+    <div class="flex items-center gap-2.5 text-[13px] font-semibold text-earth-dark"><div class="text-xl w-9 h-9 bg-white rounded-lg flex items-center justify-center" style="box-shadow: var(--shadow-soft)">📞</div> ২৪/৭ কাস্টমার সাপোর্ট</div>
+    <div class="flex items-center gap-2.5 text-[13px] font-semibold text-earth-dark"><div class="text-xl w-9 h-9 bg-white rounded-lg flex items-center justify-center" style="box-shadow: var(--shadow-soft)">🌿</div> পরিবেশবান্ধব প্যাকেজিং</div>
+  </div>
+</div>
+
+<!-- ─── CATEGORIES ─── -->
+<section class="bg-white py-[72px] px-5" id="categories">
+  <div class="max-w-[1100px] mx-auto">
+    <div class="text-center mb-12">
+      <div class="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">🗂️ ক্যাটাগরি</div>
+      <h2 class="font-noto text-[clamp(22px,4vw,36px)] text-text-dark mb-2.5 leading-[1.3]">কী ধরনের পণ্য খুঁজছেন?</h2>
+      <p class="text-text-mid text-[15px] max-w-[480px] mx-auto">বাংলাদেশের প্রতিটি কোণ থেকে আনা বিচিত্র হস্তশিল্প</p>
+    </div>
+    <div class="grid grid-cols-3 gap-5 max-[900px]:grid-cols-2 max-[600px]:grid-cols-2">
+      <a href="#" class="cat-card bg-cream border-2 border-border rounded-[18px] px-6 py-8 text-center cursor-pointer transition-all duration-[250ms] no-underline block relative overflow-hidden">
+        <span class="text-[52px] mb-4 block relative z-[1]">👘</span>
+        <div class="font-noto text-[17px] font-bold text-text-dark mb-1.5 relative z-[1]">কাপড় ও পোশাক</div>
+        <div class="text-xs text-text-light italic mb-2.5 relative z-[1]">Clothing & Textiles</div>
+        <div class="text-xs text-green-mid font-semibold relative z-[1]">১৪৫টি পণ্য</div>
+      </a>
+      <a href="#" class="cat-card bg-cream border-2 border-border rounded-[18px] px-6 py-8 text-center cursor-pointer transition-all duration-[250ms] no-underline block relative overflow-hidden">
+        <span class="text-[52px] mb-4 block relative z-[1]">🏺</span>
+        <div class="font-noto text-[17px] font-bold text-text-dark mb-1.5 relative z-[1]">মাটির পণ্য</div>
+        <div class="text-xs text-text-light italic mb-2.5 relative z-[1]">Clay & Pottery</div>
+        <div class="text-xs text-green-mid font-semibold relative z-[1]">৮৯টি পণ্য</div>
+      </a>
+      <a href="#" class="cat-card bg-cream border-2 border-border rounded-[18px] px-6 py-8 text-center cursor-pointer transition-all duration-[250ms] no-underline block relative overflow-hidden">
+        <span class="text-[52px] mb-4 block relative z-[1]">🍿</span>
+        <div class="font-noto text-[17px] font-bold text-text-dark mb-1.5 relative z-[1]">গ্রামীণ খাবার</div>
+        <div class="text-xs text-text-light italic mb-2.5 relative z-[1]">Village Food</div>
+        <div class="text-xs text-green-mid font-semibold relative z-[1]">২১২টি পণ্য</div>
+      </a>
+      <a href="#" class="cat-card bg-cream border-2 border-border rounded-[18px] px-6 py-8 text-center cursor-pointer transition-all duration-[250ms] no-underline block relative overflow-hidden">
+        <span class="text-[52px] mb-4 block relative z-[1]">🧶</span>
+        <div class="font-noto text-[17px] font-bold text-text-dark mb-1.5 relative z-[1]">নকশিকাঁথা</div>
+        <div class="text-xs text-text-light italic mb-2.5 relative z-[1]">Nakshikantha Quilts</div>
+        <div class="text-xs text-green-mid font-semibold relative z-[1]">৫৬টি পণ্য</div>
+      </a>
+      <a href="#" class="cat-card bg-cream border-2 border-border rounded-[18px] px-6 py-8 text-center cursor-pointer transition-all duration-[250ms] no-underline block relative overflow-hidden">
+        <span class="text-[52px] mb-4 block relative z-[1]">🪵</span>
+        <div class="font-noto text-[17px] font-bold text-text-dark mb-1.5 relative z-[1]">কাঠের কারুকাজ</div>
+        <div class="text-xs text-text-light italic mb-2.5 relative z-[1]">Wood Crafts</div>
+        <div class="text-xs text-green-mid font-semibold relative z-[1]">৭৩টি পণ্য</div>
+      </a>
+      <a href="#" class="cat-card bg-cream border-2 border-border rounded-[18px] px-6 py-8 text-center cursor-pointer transition-all duration-[250ms] no-underline block relative overflow-hidden">
+        <span class="text-[52px] mb-4 block relative z-[1]">🌾</span>
+        <div class="font-noto text-[17px] font-bold text-text-dark mb-1.5 relative z-[1]">পাটজাত পণ্য</div>
+        <div class="text-xs text-text-light italic mb-2.5 relative z-[1]">Jute Products</div>
+        <div class="text-xs text-green-mid font-semibold relative z-[1]">৯৮টি পণ্য</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCTS ─── -->
+<section class="bg-earth-pale py-[72px] px-5" id="products">
+  <div class="max-w-[1100px] mx-auto">
+    <div class="text-center mb-12">
+      <div class="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">🔥 জনপ্রিয়</div>
+      <h2 class="font-noto text-[clamp(22px,4vw,36px)] text-text-dark mb-2.5 leading-[1.3]">সেরা বিক্রিত পণ্যসমূহ</h2>
+      <p class="text-text-mid text-[15px] max-w-[480px] mx-auto">আমাদের সবচেয়ে বেশি পছন্দের পণ্যগুলো</p>
+    </div>
+    <div class="grid grid-cols-4 gap-5 max-[900px]:grid-cols-2 max-[600px]:grid-cols-2" id="productsGrid">
+      <!-- JS rendered -->
+    </div>
+    <div class="text-center mt-10">
+      <a href="grameen-bazar-shop.html" class="inline-flex items-center gap-2 bg-green-deep text-white no-underline px-8 py-4 rounded-xl text-[15px] font-semibold font-noto transition-colors duration-200 hover:bg-green-mid">সব পণ্য দেখুন →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── VILLAGE STORY ─── -->
+<section class="bg-green-deep text-white py-[72px] px-5" id="about">
+  <div class="max-w-[1100px] mx-auto grid grid-cols-2 gap-16 items-center max-[900px]:grid-cols-1">
+    <div class="grid grid-cols-2 gap-3 max-[900px]:hidden">
+      <div class="bg-white/[0.07] border border-white/10 rounded-2xl p-8 text-center col-span-2">
+        <span class="text-[48px] mb-2.5 block">🌾</span>
+        <div class="text-[13px] text-white/65 font-noto">বাংলাদেশের ৬৪ জেলা থেকে আসা কারিগরদের হাতে তৈরি পণ্য</div>
+      </div>
+      <div class="bg-white/[0.07] border border-white/10 rounded-2xl p-6 text-center">
+        <span class="text-[48px] mb-2.5 block">👩‍🎨</span>
+        <div class="text-[13px] text-white/65 font-noto">দক্ষ কারিগর</div>
+      </div>
+      <div class="bg-white/[0.07] border border-white/10 rounded-2xl p-6 text-center">
+        <span class="text-[48px] mb-2.5 block">🏡</span>
+        <div class="text-[13px] text-white/65 font-noto">গ্রামীণ জীবন</div>
+      </div>
+    </div>
+    <div>
+      <div class="inline-block bg-white/[0.12] text-[#c8e6b8] text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">🌿 আমাদের গল্প</div>
+      <h2 class="font-noto text-[clamp(22px,4vw,36px)] text-white text-left mb-2.5 leading-[1.3]">গ্রামের কারিগরদের সাথে</h2>
+      <p class="text-white/70 text-[15px] text-left mb-6">আমরা বিশ্বাস করি প্রতিটি হাতে তৈরি পণ্যের পেছনে একটি গল্প আছে। গ্রামীণ বাজার সেই গল্পগুলোকে আপনার কাছে পৌঁছে দেয়।</p>
+      <ul class="list-none mb-8 story-list">
+        <li class="flex items-start gap-3 py-2.5 text-[15px] text-white/80"><span class="text-lg flex-shrink-0 mt-0.5">✅</span> সরাসরি কারিগরের কাছ থেকে কিনুন — মধ্যস্থতাকারী নেই</li>
+        <li class="flex items-start gap-3 py-2.5 text-[15px] text-white/80"><span class="text-lg flex-shrink-0 mt-0.5">✅</span> প্রতিটি পণ্যের সাথে কারিগরের গল্প জানুন</li>
+        <li class="flex items-start gap-3 py-2.5 text-[15px] text-white/80"><span class="text-lg flex-shrink-0 mt-0.5">✅</span> ক্যাশ অন ডেলিভারি — পণ্য দেখে তারপর টাকা দিন</li>
+        <li class="flex items-start gap-3 py-2.5 text-[15px] text-white/80"><span class="text-lg flex-shrink-0 mt-0.5">✅</span> ১০০% খাঁটি ও হাতে তৈরি — কোনো কারখানার পণ্য নয়</li>
+      </ul>
+      <div class="grid grid-cols-3 gap-4 mt-6 max-[900px]:grid-cols-3 max-[600px]:grid-cols-2">
+        <div class="maker-card bg-white/[0.07] border border-white/10 rounded-xl py-[18px] px-3.5 text-center cursor-pointer transition-all duration-200">
+          <div class="w-12 h-12 bg-white/[0.15] rounded-full mx-auto mb-2.5 flex items-center justify-center text-2xl">👩</div>
+          <div class="font-noto text-[13px] font-bold text-white mb-0.5">রহিমা বেগম</div>
+          <div class="text-[11px] text-white/50">টাঙ্গাইল</div>
+        </div>
+        <div class="maker-card bg-white/[0.07] border border-white/10 rounded-xl py-[18px] px-3.5 text-center cursor-pointer transition-all duration-200">
+          <div class="w-12 h-12 bg-white/[0.15] rounded-full mx-auto mb-2.5 flex items-center justify-center text-2xl">👨</div>
+          <div class="font-noto text-[13px] font-bold text-white mb-0.5">আলী হোসেন</div>
+          <div class="text-[11px] text-white/50">রাজশাহী</div>
+        </div>
+        <div class="maker-card bg-white/[0.07] border border-white/10 rounded-xl py-[18px] px-3.5 text-center cursor-pointer transition-all duration-200">
+          <div class="w-12 h-12 bg-white/[0.15] rounded-full mx-auto mb-2.5 flex items-center justify-center text-2xl">👩</div>
+          <div class="font-noto text-[13px] font-bold text-white mb-0.5">সুফিয়া খাতুন</div>
+          <div class="text-[11px] text-white/50">ময়মনসিংহ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CUSTOM ORDER ─── -->
+<section class="bg-white py-[72px] px-5" id="custom">
+  <div class="max-w-[1100px] mx-auto">
+    <div class="grid grid-cols-2 gap-[60px] items-start max-[900px]:grid-cols-1">
+      <div>
+        <div class="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">🎨 কাস্টম অর্ডার</div>
+        <h2 class="font-noto text-[clamp(22px,4vw,36px)] text-text-dark text-left mb-2.5 leading-[1.3]">আপনার মনমতো পণ্য বানান</h2>
+        <p class="text-text-mid text-[15px] text-left mb-6">কারিগরের কাছ থেকে সরাসরি আপনার পছন্দমতো কাস্টম অর্ডার দিন। রং, সাইজ, নকশা — সব আপনার ইচ্ছামতো।</p>
+        <ul class="list-none mb-8">
+          <li class="flex items-center gap-2.5 py-2 text-[15px] text-text-mid border-b border-border"><span class="w-[22px] h-[22px] bg-green-pale rounded-full flex items-center justify-center text-xs text-green-deep flex-shrink-0">✓</span> যেকোনো রং ও নকশা বেছে নিন</li>
+          <li class="flex items-center gap-2.5 py-2 text-[15px] text-text-mid border-b border-border"><span class="w-[22px] h-[22px] bg-green-pale rounded-full flex items-center justify-center text-xs text-green-deep flex-shrink-0">✓</span> কাস্টম সাইজ ও মাপ</li>
+          <li class="flex items-center gap-2.5 py-2 text-[15px] text-text-mid border-b border-border"><span class="w-[22px] h-[22px] bg-green-pale rounded-full flex items-center justify-center text-xs text-green-deep flex-shrink-0">✓</span> ৭-১৪ দিনে ডেলিভারি</li>
+          <li class="flex items-center gap-2.5 py-2 text-[15px] text-text-mid border-b border-border"><span class="w-[22px] h-[22px] bg-green-pale rounded-full flex items-center justify-center text-xs text-green-deep flex-shrink-0">✓</span> ৫০০+ দক্ষ কারিগরের মধ্য থেকে বেছে নিন</li>
+          <li class="flex items-center gap-2.5 py-2 text-[15px] text-text-mid"><span class="w-[22px] h-[22px] bg-green-pale rounded-full flex items-center justify-center text-xs text-green-deep flex-shrink-0">✓</span> ক্যাশ অন ডেলিভারি উপলব্ধ</li>
+        </ul>
+      </div>
+      <div class="bg-cream border-2 border-border rounded-[20px] p-8">
+        <h3 class="font-noto text-xl font-bold text-text-dark mb-6 pb-4 border-b-2 border-border">📝 কাস্টম অর্ডার ফর্ম</h3>
+        <div class="mb-[18px]">
+          <div class="grid grid-cols-2 gap-3.5 max-[600px]:grid-cols-1">
+            <div>
+              <label class="block text-[13px] font-semibold text-text-dark mb-1.5"><span class="font-noto text-sm">নাম</span> <span class="text-[11px] text-text-light italic ml-1">Name</span></label>
+              <input type="text" placeholder="আপনার নাম" class="w-full px-3.5 py-3 border-2 border-border rounded-xl text-[15px] font-hind text-text-dark bg-white transition-colors duration-200 min-h-[48px]">
+            </div>
+            <div>
+              <label class="block text-[13px] font-semibold text-text-dark mb-1.5"><span class="font-noto text-sm">ফোন</span> <span class="text-[11px] text-text-light italic ml-1">Phone</span></label>
+              <input type="tel" placeholder="01XXXXXXXXX" class="w-full px-3.5 py-3 border-2 border-border rounded-xl text-[15px] font-hind text-text-dark bg-white transition-colors duration-200 min-h-[48px]">
+            </div>
+          </div>
+        </div>
+        <div class="mb-[18px]">
+          <label class="block text-[13px] font-semibold text-text-dark mb-1.5"><span class="font-noto text-sm">পণ্যের ধরন</span> <span class="text-[11px] text-text-light italic ml-1">Product Type</span></label>
+          <select class="w-full px-3.5 py-3 border-2 border-border rounded-xl text-[15px] font-hind text-text-dark bg-white transition-colors duration-200 min-h-[48px]">
+            <option>কাপড় ও পোশাক</option>
+            <option>মাটির পণ্য</option>
+            <option>নকশিকাঁথা</option>
+            <option>কাঠের কারুকাজ</option>
+            <option>পাটজাত পণ্য</option>
+          </select>
+        </div>
+        <div class="mb-[18px]">
+          <label class="block text-[13px] font-semibold text-text-dark mb-1.5"><span class="font-noto text-sm">বিস্তারিত বিবরণ</span> <span class="text-[11px] text-text-light italic ml-1">Description</span></label>
+          <textarea placeholder="আপনার পণ্যের রং, সাইজ, নকশা ইত্যাদি বিস্তারিত লিখুন..." class="w-full px-3.5 py-3 border-2 border-border rounded-xl text-[15px] font-hind text-text-dark bg-white transition-colors duration-200 min-h-[90px] resize-y"></textarea>
+        </div>
+        <div class="bg-green-pale border border-green-light rounded-xl px-4 py-3 text-[13px] text-green-deep font-semibold flex items-center gap-2 mb-4">✅ ক্যাশ অন ডেলিভারি — পণ্য পেয়ে টাকা দিন</div>
+        <button class="btn-submit w-full bg-green-deep text-white border-none py-4 rounded-xl text-[17px] font-noto font-bold cursor-pointer transition-all duration-200 min-h-[56px]" onclick="alert('অর্ডার পাঠানো হয়েছে!')">📤 অর্ডার পাঠান</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REVIEWS ─── -->
+<section class="bg-earth-pale py-[72px] px-5">
+  <div class="max-w-[1100px] mx-auto">
+    <div class="text-center mb-12">
+      <div class="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">⭐ রিভিউ</div>
+      <h2 class="font-noto text-[clamp(22px,4vw,36px)] text-text-dark mb-2.5 leading-[1.3]">ক্রেতাদের অভিজ্ঞতা</h2>
+      <p class="text-text-mid text-[15px] max-w-[480px] mx-auto">আমাদের হাজারো সন্তুষ্ট ক্রেতার কিছু কথা</p>
+    </div>
+    <div class="grid grid-cols-3 gap-5 max-[900px]:grid-cols-2 max-[600px]:grid-cols-1">
+      <div class="bg-white rounded-2xl p-6" style="box-shadow: var(--shadow-soft)">
+        <span class="text-[40px] text-green-pale font-serif leading-none mb-2 block">"</span>
+        <p class="text-[15px] text-text-mid mb-[18px] leading-[1.7] font-noto">অসাধারণ মানের শাড়ি! রঙ এবং নকশা একদম ছবির মতো। কারিগরের গল্পটা পড়ে মনে হলো এই কেনাকাটাটা শুধু শাড়ি কেনা না।</p>
+        <div class="text-[14px] text-star mb-3">★★★★★</div>
+        <div class="flex items-center gap-3 pt-4 border-t border-border">
+          <div class="w-10 h-10 rounded-full review-avatar flex items-center justify-center text-xl flex-shrink-0">👩</div>
+          <div><div class="font-bold text-sm text-text-dark font-noto">নাহিদা সুলতানা</div><div class="text-xs text-text-light">ঢাকা</div></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6" style="box-shadow: var(--shadow-soft)">
+        <span class="text-[40px] text-green-pale font-serif leading-none mb-2 block">"</span>
+        <p class="text-[15px] text-text-mid mb-[18px] leading-[1.7] font-noto">স্ত্রীর জন্য কিনেছিলাম, তিনি খুবই খুশি। শাড়ির মান বাজারের দামি দোকানের মতোই, কিন্তু দাম অনেক কম।</p>
+        <div class="text-[14px] text-star mb-3">★★★★★</div>
+        <div class="flex items-center gap-3 pt-4 border-t border-border">
+          <div class="w-10 h-10 rounded-full review-avatar flex items-center justify-center text-xl flex-shrink-0">👨</div>
+          <div><div class="font-bold text-sm text-text-dark font-noto">রহিম সাহেব</div><div class="text-xs text-text-light">চট্টগ্রাম</div></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 max-[600px]:hidden" style="box-shadow: var(--shadow-soft)">
+        <span class="text-[40px] text-green-pale font-serif leading-none mb-2 block">"</span>
+        <p class="text-[15px] text-text-mid mb-[18px] leading-[1.7] font-noto">গ্রামীণ বাজার থেকে এটাই প্রথম কেনা। পণ্য দেখে মুগ্ধ হয়ে গেলাম। কারিগরকে সরাসরি সাপোর্ট করতে পারছি।</p>
+        <div class="text-[14px] text-star mb-3">★★★★★</div>
+        <div class="flex items-center gap-3 pt-4 border-t border-border">
+          <div class="w-10 h-10 rounded-full review-avatar flex items-center justify-center text-xl flex-shrink-0">👨</div>
+          <div><div class="font-bold text-sm text-text-dark font-noto">করিম উদ্দিন</div><div class="text-xs text-text-light">সিলেট</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MISSION ─── -->
+<section class="bg-white py-[72px] px-5">
+  <div class="max-w-[1100px] mx-auto">
+    <div class="text-center mb-12">
+      <div class="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">💚 আমাদের লক্ষ্য</div>
+      <h2 class="font-noto text-[clamp(22px,4vw,36px)] text-text-dark mb-2.5 leading-[1.3]">কেন গ্রামীণ বাজার?</h2>
+    </div>
+    <div class="grid grid-cols-4 gap-6 mt-5 max-[900px]:grid-cols-2 max-[600px]:grid-cols-2">
+      <div class="mission-card text-center py-8 px-5 rounded-2xl border-2 border-border transition-all duration-200">
+        <span class="text-[40px] mb-3.5 block">🤝</span>
+        <div class="font-noto text-base font-bold text-text-dark mb-2">সরাসরি সংযোগ</div>
+        <div class="text-[13px] text-text-mid leading-relaxed">কারিগর ও ক্রেতার মধ্যে সরাসরি সম্পর্ক</div>
+      </div>
+      <div class="mission-card text-center py-8 px-5 rounded-2xl border-2 border-border transition-all duration-200">
+        <span class="text-[40px] mb-3.5 block">💰</span>
+        <div class="font-noto text-base font-bold text-text-dark mb-2">ন্যায্য মূল্য</div>
+        <div class="text-[13px] text-text-mid leading-relaxed">কারিগর পান সঠিক মূল্য, ক্রেতা পান সেরা দাম</div>
+      </div>
+      <div class="mission-card text-center py-8 px-5 rounded-2xl border-2 border-border transition-all duration-200">
+        <span class="text-[40px] mb-3.5 block">🌿</span>
+        <div class="font-noto text-base font-bold text-text-dark mb-2">পরিবেশবান্ধব</div>
+        <div class="text-[13px] text-text-mid leading-relaxed">টেকসই ও প্রাকৃতিক উপকরণে তৈরি পণ্য</div>
+      </div>
+      <div class="mission-card text-center py-8 px-5 rounded-2xl border-2 border-border transition-all duration-200">
+        <span class="text-[40px] mb-3.5 block">🏘️</span>
+        <div class="font-noto text-base font-bold text-text-dark mb-2">গ্রামীণ উন্নয়ন</div>
+        <div class="text-[13px] text-text-mid leading-relaxed">গ্রামীণ অর্থনীতি ও কারিগরদের জীবনমান উন্নয়ন</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-earth-dark text-white/75 py-[60px] px-5 pb-8">
+  <div class="max-w-[1100px] mx-auto grid grid-cols-[2fr_1fr_1fr_1fr] gap-12 mb-12 max-[900px]:grid-cols-2 max-[600px]:grid-cols-1 max-[600px]:gap-8">
+    <div>
+      <div class="flex items-center gap-2.5 mb-4">
+        <div class="w-10 h-10 bg-green-deep rounded-full flex items-center justify-center text-xl">🌿</div>
+        <div><div class="font-noto text-[17px] font-bold text-earth-light">গ্রামীণ বাজার</div><div class="text-[11px] text-white/40 font-medium tracking-widest uppercase">Grameen Bazar</div></div>
+      </div>
+      <p class="text-sm mt-4 mb-4 leading-[1.7] text-white/60 font-noto">বাংলাদেশের গ্রামের দক্ষ কারিগরদের হাতে তৈরি খাঁটি পণ্য আপনার কাছে পৌঁছে দিচ্ছি।</p>
+      <div class="flex gap-2.5 mt-5">
+        <a class="social-btn w-[38px] h-[38px] bg-white/[0.08] rounded-lg flex items-center justify-center text-[18px] no-underline cursor-pointer transition-colors duration-200" href="#">📘</a>
+        <a class="social-btn w-[38px] h-[38px] bg-white/[0.08] rounded-lg flex items-center justify-center text-[18px] no-underline cursor-pointer transition-colors duration-200" href="#">📸</a>
+        <a class="social-btn w-[38px] h-[38px] bg-white/[0.08] rounded-lg flex items-center justify-center text-[18px] no-underline cursor-pointer transition-colors duration-200" href="#">📺</a>
+      </div>
+    </div>
+    <div>
+      <h4 class="text-white text-sm font-bold uppercase tracking-[1px] mb-[18px]">পণ্য</h4>
+      <ul class="list-none">
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">কাপড় ও পোশাক</a></li>
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">মাটির পণ্য</a></li>
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">গ্রামীণ খাবার</a></li>
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">নকশিকাঁথা</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-white text-sm font-bold uppercase tracking-[1px] mb-[18px]">তথ্য</h4>
+      <ul class="list-none">
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">আমাদের গল্প</a></li>
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">কারিগর হোন</a></li>
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">রিটার্ন পলিসি</a></li>
+        <li class="mb-2.5"><a href="#" class="footer-link text-white/60 no-underline text-sm transition-colors duration-200 font-noto">গোপনীয়তা নীতি</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-white text-sm font-bold uppercase tracking-[1px] mb-[18px]">যোগাযোগ</h4>
+      <div class="flex items-start gap-2.5 mb-3 text-sm text-white/60"><span class="text-base flex-shrink-0 mt-0.5">📞</span> ০১৭XX-XXXXXX</div>
+      <div class="flex items-start gap-2.5 mb-3 text-sm text-white/60"><span class="text-base flex-shrink-0 mt-0.5">📧</span> info@grameen-bazar.com</div>
+      <div class="flex items-start gap-2.5 mb-3 text-sm text-white/60"><span class="text-base flex-shrink-0 mt-0.5">📍</span> ঢাকা, বাংলাদেশ</div>
+    </div>
+  </div>
+  <div class="border-t border-white/10 pt-6 flex justify-between items-center flex-wrap gap-3 text-[13px] text-white/40">
+    <span>© ২০২৫ গ্রামীণ বাজার। সর্বস্বত্ব সংরক্ষিত।</span>
+    <span>Made with ❤️ in Bangladesh</span>
+  </div>
+</footer>
+
+<!-- ─── PRODUCT MODAL ─── -->
+<div class="modal-overlay fixed inset-0 bg-black/55 z-[200] items-center justify-center p-5" id="modalOverlay" onclick="closeModal()">
+  <div class="bg-white rounded-3xl max-w-[780px] w-full max-h-[90vh] overflow-y-auto" style="box-shadow: 0 24px 80px rgba(0,0,0,0.3)" onclick="event.stopPropagation()">
+    <div class="px-7 pt-6 pb-4 flex justify-between items-center border-b border-border sticky top-0 bg-white z-[1] rounded-t-3xl">
+      <h3 class="font-noto text-xl font-bold text-text-dark" id="modalTitle">পণ্যের নাম</h3>
+      <button class="bg-cream border-none w-9 h-9 rounded-full text-xl cursor-pointer flex items-center justify-center text-text-mid transition-all duration-200 hover:bg-border" onclick="closeModal()">✕</button>
+    </div>
+    <div class="p-7 grid grid-cols-2 gap-8 max-[900px]:grid-cols-1">
+      <div class="bg-earth-pale rounded-2xl h-[280px] flex items-center justify-center text-[96px]" id="modalEmoji">🥻</div>
+      <div>
+        <div class="text-xs text-earth-mid font-semibold uppercase tracking-[0.5px] mb-2 flex items-center gap-1" id="modalVillage">📍 গ্রাম</div>
+        <h2 class="font-noto text-[22px] font-bold text-text-dark mb-1" id="modalName">পণ্যের নাম</h2>
+        <div class="flex items-center gap-2.5 my-3">
+          <span class="font-playfair text-[28px] font-bold text-green-deep" id="modalPrice">৳০</span>
+          <span class="text-base text-text-light line-through" id="modalOldPrice">৳০</span>
+        </div>
+        <p class="text-sm text-text-mid leading-[1.7] mb-[18px] font-noto" id="modalDesc">বিবরণ</p>
+        <div class="flex gap-2.5 mt-5">
+          <button class="btn-buy flex-1 bg-accent text-white border-none py-3.5 rounded-xl text-[15px] font-hind font-bold cursor-pointer transition-all duration-200 min-h-[50px]" onclick="alert('অর্ডারের জন্য কল করুন')">⚡ এখনই কিনুন</button>
+          <button class="btn-add-modal flex-1 bg-green-deep text-white border-none py-3.5 rounded-xl text-[15px] font-hind font-bold cursor-pointer transition-all duration-200 min-h-[50px]" id="modalAddBtn">🛒 কার্টে যোগ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CART PANEL ─── -->
+<div class="cart-overlay fixed inset-0 bg-black/40 z-[299]" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel fixed right-0 top-0 bottom-0 w-[360px] bg-white z-[300] flex flex-col max-[900px]:w-[320px] max-[600px]:w-full" style="box-shadow: -8px 0 40px rgba(0,0,0,0.18)" id="cartPanel">
+  <div class="px-5 pt-5 pb-4 border-b-2 border-border flex justify-between items-center">
+    <div class="font-noto text-xl font-bold">🛒 আপনার কার্ট</div>
+    <button class="bg-cream border-none w-9 h-9 rounded-full text-xl cursor-pointer flex items-center justify-center transition-colors duration-200 hover:bg-border" onclick="closeCart()">✕</button>
+  </div>
+  <div class="flex-1 overflow-y-auto p-4" id="cartItemsEl">
+    <div class="text-center py-[60px] px-5 text-text-light"><div class="text-[52px] mb-3">🛒</div><div class="font-noto text-base">কার্ট এখন খালি</div></div>
+  </div>
+  <div class="p-5 border-t-2 border-border bg-cream">
+    <div class="flex justify-between text-sm text-text-mid mb-1.5"><span>সাবটোটাল</span><span id="subtotalEl">৳০</span></div>
+    <div class="flex justify-between text-sm text-text-mid mb-1.5"><span>ডেলিভারি চার্জ</span><span>৳৬০</span></div>
+    <div class="flex justify-between text-[18px] font-bold mb-4 mt-2 pt-2 border-t border-border"><span class="font-noto">মোট</span><span class="font-playfair text-[22px] text-green-deep" id="totalEl">৳৬০</span></div>
+    <button class="btn-checkout w-full bg-green-deep text-white border-none py-4 rounded-xl text-base font-noto font-bold cursor-pointer transition-colors duration-200 min-h-[54px]" onclick="alert('চেকআউট পেজ আসছে!')">✅ অর্ডার করুন</button>
+  </div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast fixed bottom-6 left-1/2 bg-green-deep text-white px-6 py-3.5 rounded-xl text-[15px] font-noto font-semibold z-[400] transition-transform duration-300 flex items-center gap-2 whitespace-nowrap" style="box-shadow: 0 8px 32px rgba(0,0,0,0.25)" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  { id:1, name:'জামদানি শাড়ি', nameEn:'Jamdani Saree', emoji:'🥻', price:3500, oldPrice:4200, badge:'hot', village:'টাঙ্গাইল', rating:4.9, reviews:48 },
+  { id:2, name:'মাটির হাঁড়ি সেট', nameEn:'Clay Pot Set', emoji:'🏺', price:450, oldPrice:600, badge:'new', village:'রাজশাহী', rating:4.7, reviews:23 },
+  { id:3, name:'আলুর চিপস', nameEn:'Handmade Chips', emoji:'🍟', price:180, oldPrice:250, badge:'hot', village:'ময়মনসিংহ', rating:5.0, reviews:102 },
+  { id:4, name:'নকশিকাঁথা', nameEn:'Nakshikantha Quilt', emoji:'🧶', price:2200, oldPrice:3000, badge:'best', village:'জামালপুর', rating:4.9, reviews:67 },
+  { id:5, name:'পাটের ব্যাগ', nameEn:'Jute Bag', emoji:'👜', price:350, oldPrice:500, badge:'new', village:'খুলনা', rating:4.6, reviews:35 },
+  { id:6, name:'কাঠের পাত্র সেট', nameEn:'Wooden Kitchen Set', emoji:'🥄', price:950, oldPrice:1200, badge:'new', village:'সিলেট', rating:4.8, reviews:19 },
+  { id:7, name:'হাতে বোনা শাল', nameEn:'Handwoven Shawl', emoji:'🧣', price:780, oldPrice:1000, badge:'', village:'রংপুর', rating:4.9, reviews:54 },
+  { id:8, name:'গ্রামীণ মধু', nameEn:'Pure Honey', emoji:'🍯', price:650, oldPrice:800, badge:'hot', village:'সুন্দরবন', rating:5.0, reviews:88 },
+];
+
+let cart = [];
+let currentModalProduct = null;
+
+function renderProducts() {
+  const grid = document.getElementById('productsGrid');
+  grid.innerHTML = PRODUCTS.map(p => {
+    const disc = Math.round((1-p.price/p.oldPrice)*100);
+    const stars = '★'.repeat(Math.round(p.rating))+'☆'.repeat(5-Math.round(p.rating));
+    const badgeColor = p.badge==='hot'?'bg-accent':p.badge==='new'?'bg-green-mid':p.badge==='best'?'bg-purple-700':'bg-accent';
+    const badgeLabel = p.badge==='hot'?'🔥 হট':p.badge==='new'?'✨ নতুন':p.badge==='best'?'⭐ সেরা':'';
+    return `<div class="product-card bg-white rounded-2xl overflow-hidden cursor-pointer relative transition-all duration-[250ms]" onclick="openModal(${p.id})" style="box-shadow: var(--shadow-soft)">
+      <div class="bg-green-pale h-[200px] flex items-center justify-center text-[64px] relative">
+        ${p.badge ? `<span class="${badgeColor} text-white text-[11px] font-bold px-2.5 py-1 rounded-md absolute top-3 left-3">${badgeLabel}</span>` : ''}
+        <button class="absolute top-3 right-3 bg-white border-none w-[34px] h-[34px] rounded-full flex items-center justify-center cursor-pointer text-base" style="box-shadow: var(--shadow-soft)" onclick="event.stopPropagation()">🤍</button>
+        ${p.emoji}
+      </div>
+      <div class="p-4">
+        <div class="text-[11px] text-earth-mid font-semibold flex items-center gap-1 mb-1.5 uppercase tracking-[0.5px]">📍 ${p.village}</div>
+        <div class="text-[15px] font-bold text-text-dark mb-1 font-noto leading-[1.3]">${p.name}</div>
+        <div class="text-xs text-text-light italic mb-2.5">${p.nameEn}</div>
+        <div class="flex items-center gap-1 text-xs text-star mb-2"><span>${stars}</span> <span class="text-text-light">(${p.reviews})</span></div>
+        <div class="flex items-center justify-between mt-3">
+          <div><span class="font-playfair text-xl font-bold text-green-deep">৳${p.price.toLocaleString()}</span><span class="text-[13px] text-text-light line-through ml-1.5">৳${p.oldPrice}</span></div>
+          <button class="btn-add bg-green-deep text-white border-none px-4 py-2 rounded-lg text-[13px] font-hind font-bold cursor-pointer transition-colors duration-200 min-h-[38px]" onclick="event.stopPropagation();addToCart(${p.id})">+ কার্ট</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id) {
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  currentModalProduct = p;
+  document.getElementById('modalTitle').textContent = p.name;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalVillage').textContent = '📍 ' + p.village;
+  document.getElementById('modalEmoji').textContent = p.emoji;
+  document.getElementById('modalPrice').textContent = '৳' + p.price.toLocaleString();
+  document.getElementById('modalOldPrice').textContent = '৳' + p.oldPrice.toLocaleString();
+  document.getElementById('modalDesc').textContent = 'হাতে তৈরি, খাঁটি ও টেকসই পণ্য। ' + p.village + '-এর দক্ষ কারিগরের হাতের কাজ।';
+  document.getElementById('modalAddBtn').onclick = () => { addToCart(id); closeModal(); };
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function addToCart(id) {
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  const ex = cart.find(i=>i.id===id);
+  if(ex) ex.qty++;
+  else cart.push({...p, qty:1});
+  updateCart();
+  showToast('✅ '+p.name+' কার্টে যোগ হয়েছে!');
+}
+
+function updateCart() {
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  const sub = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('cartBadge').textContent = count;
+  document.getElementById('subtotalEl').textContent = '৳'+sub.toLocaleString();
+  document.getElementById('totalEl').textContent = '৳'+(sub+60).toLocaleString();
+  const el = document.getElementById('cartItemsEl');
+  if(cart.length===0) { el.innerHTML='<div class="text-center py-[60px] px-5 text-text-light"><div class="text-[52px] mb-3">🛒</div><div class="font-noto text-base">কার্ট এখন খালি</div></div>'; return; }
+  el.innerHTML = cart.map((item,i)=>`
+    <div class="flex gap-3.5 py-3.5 border-b border-border items-center">
+      <div class="w-[60px] h-[60px] bg-earth-pale rounded-xl flex items-center justify-center text-[28px] flex-shrink-0">${item.emoji}</div>
+      <div class="flex-1">
+        <div class="font-noto text-sm font-bold mb-1">${item.name}</div>
+        <div class="text-[15px] font-bold text-green-deep">৳${(item.price*item.qty).toLocaleString()}</div>
+        <div class="flex items-center gap-2 mt-1.5">
+          <button class="qty-btn w-[26px] h-[26px] border border-border bg-cream rounded-md flex items-center justify-center cursor-pointer text-sm font-bold transition-colors duration-[150ms]" onclick="cQty(${i},-1)">−</button>
+          <span class="font-bold text-sm min-w-[20px] text-center">${item.qty}</span>
+          <button class="qty-btn w-[26px] h-[26px] border border-border bg-cream rounded-md flex items-center justify-center cursor-pointer text-sm font-bold transition-colors duration-[150ms]" onclick="cQty(${i},1)">+</button>
+          <button class="ml-auto bg-none border-none text-base cursor-pointer text-text-light hover:text-red-soft" onclick="removeCart(${i})">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function cQty(i,d){ cart[i].qty=Math.max(1,cart[i].qty+d); updateCart(); }
+function removeCart(i){ cart.splice(i,1); updateCart(); }
+function openCart(){ document.getElementById('cartPanel').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeCart(){ document.getElementById('cartPanel').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); document.body.style.overflow=''; }
+
+let toastTimer;
+function showToast(msg) {
+  clearTimeout(toastTimer);
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+renderProducts();
+</script>
+</body>
+</html>

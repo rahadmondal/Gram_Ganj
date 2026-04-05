@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+@theme {
+  --color-green-deep: #2d5a27;
+  --color-green-mid: #4a7c3f;
+  --color-green-light: #7daf6a;
+  --color-green-pale: #e8f0e5;
+  --color-earth-dark: #5c3d1e;
+  --color-earth-mid: #8b5e3c;
+  --color-earth-light: #c4956a;
+  --color-earth-pale: #f5ede3;
+  --color-cream: #fdf8f2;
+  --color-text-dark: #1a1a1a;
+  --color-text-mid: #4a4a4a;
+  --color-text-light: #888;
+  --color-border: #e2d8cc;
+  --color-accent: #d4691e;
+  --color-red-soft: #c0392b;
+  --color-star: #f4a61a;
+
+  --font-hind: "Hind Siliguri", sans-serif;
+  --font-noto: "Noto Serif Bengali", serif;
+  --font-playfair: "Playfair Display", serif;
+
+  --shadow-soft: 0 2px 12px rgba(93, 61, 30, 0.12);
+  --shadow-md: 0 12px 32px rgba(93, 61, 30, 0.18);
+}
+
+/* Nav active */
+.nav-link:hover {
+  background-color: var(--color-green-pale);
+  color: var(--color-green-deep);
+}
+
+@layer components {
+  .container {
+    @apply w-full mx-auto px-5 md:px-8 max-w-full sm:max-w-160 md:max-w-3xl lg:max-w-5xl xl:max-w-300;
+  }
+
+  .nav-link {
+    @apply hover:text-green-700 hover:bg-green-pale px-2 py-2 rounded-md transition;
+  }
+}

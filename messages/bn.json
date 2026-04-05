@@ -1,0 +1,56 @@
+{
+  "HomePage": {
+    "heroBadge": "🌾 ১০০% হাতে তৈরি · Made in Village",
+    "heroTitle1": "গ্রামের হাতে তৈরি,",
+    "heroTitle2": "আপনার জন্য",
+    "heroDesc1": "বাংলাদেশের গ্রামের দক্ষ কারিগরদের হাতে তৈরি পণ্য সরাসরি আপনার দরজায়",
+    "heroDesc2": "Authentic handmade products from Bangladesh's villages, delivered to your door",
+    "btnShopNow": "🛍️ এখনই কিনুন",
+    "btnWatchStory": "🎥 আমাদের গল্প দেখুন",
+    "catClothing": "হাতে বোনা কাপড়",
+    "catPottery": "মাটির পাত্র",
+    "catFood": "গ্রামীণ খাবার",
+    "statArtisanCount": "৫০০+",
+    "statArtisanLabel": "কারিগর",
+    "statDistrictCount": "৬৪",
+    "statDistrictLabel": "জেলা",
+    "statCustomerCount": "১২০০০+",
+    "statCustomerLabel": "সন্তুষ্ট ক্রেতা",
+    "featCOD": "ক্যাশ অন ডেলিভারি (COD)",
+    "featReturn": "৭ দিনের রিটার্ন পলিসি",
+    "featGuarantee": "১০০% খাঁটি পণ্য গ্যারান্টি",
+    "featSupport": "২৪/৭ কাস্টমার সাপোর্ট",
+    "featEco": "পরিবেশবান্ধব প্যাকেজিং"
+  },
+
+  "Navbar": {
+    "brandName": "গ্রামীণ বাজার",
+    "brandSubName": "Grameen Bazar",
+    "navProducts": "পণ্য সমূহ",
+    "navPopular": "জনপ্রিয়",
+    "navCustom": "কাস্টম অর্ডার",
+    "navAbout": "আমাদের গল্প",
+    "copyright": "© গ্রামীণ বাজার ২০২৬"
+  },
+  "Footer": {
+    "brandName": "গ্রামীণ বাজার",
+    "brandSubName": "Grameen Bazar",
+    "description": "বাংলাদেশের গ্রামের দক্ষ কারিগরদের হাতে তৈরি খাঁটি পণ্য আপনার কাছে পৌঁছে দিচ্ছি।",
+    "titleProducts": "পণ্য",
+    "prodClothing": "কাপড় ও পোশাক",
+    "prodPottery": "মাটির পণ্য",
+    "prodFood": "গ্রামীণ খাবার",
+    "prodNakshiKatha": "নকশিকাঁথা",
+    "titleInfo": "তথ্য",
+    "infoStory": "আমাদের গল্প",
+    "infoArtisan": "কারিগর হোন",
+    "infoReturn": "রিটার্ন পলিসি",
+    "infoPrivacy": "গোপনীয়তা নীতি",
+    "titleContact": "যোগাযোগ",
+    "contactPhone": "০১৭XX-XXXXXX",
+    "contactEmail": "info@grameen-bazar.com",
+    "contactAddress": "ঢাকা, বাংলাদেশ",
+    "copyright": "© ২০২৬ গ্রামীণ বাজার। সর্বস্বত্ব সংরক্ষিত।",
+    "madeWithLove": "Made with ❤️ in Bangladesh"
+  }
+}
