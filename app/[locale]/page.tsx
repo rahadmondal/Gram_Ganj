@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import HeroSection from "@/components/homepage/HeroSection";
 import FeatureBar from "@/components/homepage/FeatureBar";
+import CategoriesSection from "@/components/homepage/CategoriesSection";
 interface HomeProps {
   params: Promise<{ locale: string }>;
 }
@@ -14,6 +15,7 @@ export default async function Home(props: HomeProps) {
     <div className="">
       <HeroSection />
       <FeatureBar />
+      <CategoriesSection />
     </div>
   );
 }
