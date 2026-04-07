@@ -5,6 +5,7 @@ export default function InputField({ label, type, placeholder, error, registerPr
     const [showPassword, setShowPassword] = useState(false);
 
     const inputType = type === "password" && showPassword ? "text" : type;
+    
 
     return (
         <div>

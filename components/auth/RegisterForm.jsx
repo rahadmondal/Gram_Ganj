@@ -1,9 +1,16 @@
 'use client';
 import InputField from "@/components/common/InputField";
+import { Link } from "@/i18n/routing";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import Badge from "./Badge";
+import { FaLock } from "react-icons/fa";
+import SocialButton from "./SocialButton";
+import Divider from "./Divider";
+import { useLocale } from "next-intl";
+import { redirect } from "next/navigation";
 
 
 // ---------------- Reusable Button ----------------
@@ -27,6 +34,7 @@ export default function RegistrationForm() {
   } = useForm();
 
   const [loading, setLoading] = useState(false);
+  const locale = useLocale();
 
   const onSubmit = async (formData) => {
     setLoading(true);
@@ -42,6 +50,7 @@ export default function RegistrationForm() {
         toast.error(error.message || "রেজিস্ট্রেশন ব্যর্থ হয়েছে");
       } else {
         toast.success("রেজিস্ট্রেশন সফল হয়েছে!");
+        redirect(`/${locale}`)
       }
     } catch (error) {
       console.error("Registration error:", error);
@@ -51,9 +60,11 @@ export default function RegistrationForm() {
   };
 
   return (
-    <div className="w-full md:w-7/12 p-8 md:p-14 flex flex-col justify-center bg-white">
-      <div className="mb-8">
-        <h2 className=" text-3xl font-bold text-gray-900 mb-2">
+    <>
+      {/* header */}
+      <div className="mb-7">
+        <Badge> <FaLock /> নিরাপদ রেজিস্ট্রেশন</Badge>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">
           রেজিস্ট্রেশন
         </h2>
         <p className="text-gray-500 text-[15px]">
@@ -106,15 +117,30 @@ export default function RegistrationForm() {
         </Button>
       </form>
 
+      {/* Social login */}
+      <Divider label="অথবা দিয়ে লগইন করুন" />
+      <div className="flex gap-2.5">
+        <SocialButton
+          icon="🌐"
+          label="Google"
+          onClick={() => toast("Google লগইন শীঘ্রই আসছে!")}
+        />
+        <SocialButton
+          icon="📘"
+          label="Facebook"
+          onClick={() => toast("Facebook লগইন শীঘ্রই আসছে!")}
+        />
+      </div>
+
       <div className="mt-8 text-center text-[15px] text-gray-600 border-t border-earth-pale pt-6">
         আগে থেকেই অ্যাকাউন্ট আছে?
-        <a
-          href="login.html"
+        <Link
+          href="/signin"
           className="font-bold text-green-deep hover:text-green-mid hover:underline ml-1"
         >
           লগইন করুন
-        </a>
+        </Link>
       </div>
-    </div>
+    </>
   );
 }

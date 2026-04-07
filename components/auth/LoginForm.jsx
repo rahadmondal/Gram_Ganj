@@ -1,6 +1,6 @@
 // components/auth/LoginForm.jsx
 "use client";
-import { Button } from "@/app/[locale]/signup/component/Register";
+import { Button } from "@/components/auth/RegisterForm";
 import Badge from "@/components/auth/Badge";
 import Divider from "@/components/auth/Divider";
 import SocialButton from "@/components/auth/SocialButton";
@@ -12,6 +12,7 @@ import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { FaLock } from "react-icons/fa";
 
 export default function LoginForm() {
     const {
@@ -53,11 +54,11 @@ export default function LoginForm() {
         <>
             {/* Header */}
             <div className="mb-7">
-                <Badge>🔐 নিরাপদ লগইন</Badge>
-                <h2 className="font-noto text-[26px] font-bold text-gray-900 mb-1.5">
+                <Badge> <FaLock /> নিরাপদ লগইন</Badge>
+                <h2 className=" text-3xl font-bold text-gray-900 mb-2">
                     লগইন করুন
                 </h2>
-                <p className="text-sm text-text-light">
+                <p className="text-gray-500 text-[15px]">
                     আপনার অ্যাকাউন্টে প্রবেশ করতে তথ্যগুলো দিন
                 </p>
             </div>
@@ -119,10 +120,10 @@ export default function LoginForm() {
             </div>
 
             {/* Switch to register */}
-            <p className="mt-6 text-center text-sm text-text-mid pt-5 border-t border-border">
+            <p className="mt-6 text-center text-[15px] text-text-mid pt-5 border-t border-border">
                 নতুন ব্যবহারকারী?{" "}
                 <Link
-                    href="/register"
+                    href="/signup"
                     className="font-bold text-green-deep hover:text-green-mid hover:underline"
                 >
                     অ্যাকাউন্ট তৈরি করুন
