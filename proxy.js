@@ -18,8 +18,6 @@ export default async function middleware(request) {
 
   const isLoggedIn = !!session; // সেশন থাকলে true, না থাকলে false
 
-  console.log(isLoggedIn);
-
   // ২. প্রটেক্টেড রুট চেক (যেমন: /dashboard)
   // মনে রাখবেন: next-intl এর কারণে pathname এ /en/dashboard বা /bn/dashboard থাকতে পারে
   const isDashboardPage = pathname.includes("/dashboard");

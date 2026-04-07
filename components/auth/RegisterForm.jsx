@@ -11,19 +11,9 @@ import SocialButton from "./SocialButton";
 import Divider from "./Divider";
 import { useLocale } from "next-intl";
 import { redirect } from "next/navigation";
+import AuthButton from "./AuthButton";
 
 
-// ---------------- Reusable Button ----------------
-export function Button({ children, className, ...rest }) {
-  return (
-    <button
-      className={`w-full bg-green-deep hover:bg-green-mid text-white cursor-pointer font-bold text-lg py-4 rounded-xl transition-all shadow-lg hover:shadow-green-deep/30 hover:-translate-y-0.5 mt-4 ${className}`}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-}
 
 // ---------------- Registration Form ----------------
 export default function RegistrationForm() {
@@ -112,9 +102,9 @@ export default function RegistrationForm() {
           error={errors.password?.message}
         />
 
-        <Button type="submit" disabled={loading}>
+        <AuthButton type="submit" disabled={loading}>
           {loading ? "অ্যাকাউন্ট তৈরি হচ্ছে..." : "অ্যাকাউন্ট তৈরি করুন"}
-        </Button>
+        </AuthButton>
       </form>
 
       {/* Social login */}

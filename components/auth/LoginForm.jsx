@@ -1,6 +1,5 @@
 // components/auth/LoginForm.jsx
 "use client";
-import { Button } from "@/components/auth/RegisterForm";
 import Badge from "@/components/auth/Badge";
 import Divider from "@/components/auth/Divider";
 import SocialButton from "@/components/auth/SocialButton";
@@ -13,6 +12,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaLock } from "react-icons/fa";
+import AuthButton from "./AuthButton";
 
 export default function LoginForm() {
     const {
@@ -99,9 +99,9 @@ export default function LoginForm() {
                     </Link>
                 </div>
 
-                <Button type="submit" disabled={loading}>
+                <AuthButton type="submit" disabled={loading}>
                     {loading ? "লগইন হচ্ছে..." : "লগইন"}
-                </Button>
+                </AuthButton>
             </form>
 
             {/* Social login */}
