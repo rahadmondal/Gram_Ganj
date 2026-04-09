@@ -7,7 +7,7 @@ import InputField from "@/components/common/InputField";
 import { Link } from "@/i18n/routing";
 import { authClient } from "@/lib/auth-client";
 import { useLocale } from "next-intl";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -23,6 +23,7 @@ export default function LoginForm() {
 
     const [loading, setLoading] = useState(false);
     const locale = useLocale();
+    const router = useRouter()
 
 
 
@@ -40,7 +41,7 @@ export default function LoginForm() {
                 toast.error(error.message || "লগইন ব্যর্থ হয়েছে");
             } else {
                 toast.success(`${locale === "en" ? "Login successful!" : "লগইন সফল হয়েছে!"}`);
-                redirect(`/${locale}/profile`);
+                router.push(`/${locale}/profile/order`);
             }
         } catch (err) {
             toast.error(`${locale === "en" ? "An error occurred during login." : "লগইন করার সময় একটি ত্রুটি ঘটেছে."}`);

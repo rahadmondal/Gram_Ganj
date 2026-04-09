@@ -1,7 +1,7 @@
 import AuthLeft from "@/components/auth/AuthLeft";
 import AuthRight from "@/components/auth/AuthRight";
 import RegistrationForm from "@/components/auth/RegisterForm";
-import { LOGIN_CONFIG, SIGNUP_CONFIG } from "@/lib/authPageConfig";
+import { SIGNUP_CONFIG } from "@/lib/authPageConfig";
 
 export default function SignupPage() {
   return (

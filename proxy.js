@@ -1,8 +1,7 @@
 import createIntlMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import { NextResponse } from "next/server";
-import { auth } from "./lib/auth"; // আপনার Better Auth কনফিগ
-
+import { auth } from "./lib/auth";
 const intlMiddleware = createIntlMiddleware({
   ...routing,
   localeDetection: true,
@@ -20,18 +19,18 @@ export default async function middleware(request) {
 
   // ২. প্রটেক্টেড রুট চেক (যেমন: /dashboard)
   // মনে রাখবেন: next-intl এর কারণে pathname এ /en/dashboard বা /bn/dashboard থাকতে পারে
-  const isDashboardPage = pathname.includes("/dashboard");
+  const isProfilePage = pathname.includes("/profile");
   const isAuthPage =
     pathname.includes("/signin") || pathname.includes("/signup");
 
-  if (isDashboardPage && !isLoggedIn) {
+  if (isProfilePage && !isLoggedIn) {
     // লগইন করা না থাকলে লগইন পেজে পাঠান
     return NextResponse.redirect(new URL("/signin", request.url));
   }
 
   if (isAuthPage && isLoggedIn) {
     // লগইন করা থাকলে ড্যাশবোর্ডে পাঠান
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/profile/orders", request.url));
   }
 
   // ৩. সব ঠিক থাকলে next-intl মিডলওয়্যার কল করুন

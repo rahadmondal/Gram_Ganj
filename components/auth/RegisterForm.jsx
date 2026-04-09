@@ -2,20 +2,20 @@
 import InputField from "@/components/common/InputField";
 import { Link } from "@/i18n/routing";
 import { authClient } from "@/lib/auth-client";
+import { useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import Badge from "./Badge";
 import { FaLock } from "react-icons/fa";
-import SocialButton from "./SocialButton";
-import Divider from "./Divider";
-import { useLocale } from "next-intl";
-import { redirect } from "next/navigation";
 import AuthButton from "./AuthButton";
-
+import Badge from "./Badge";
+import Divider from "./Divider";
+import SocialButton from "./SocialButton";
 
 
 // ---------------- Registration Form ----------------
+
 export default function RegistrationForm() {
   const {
     register,
@@ -25,6 +25,7 @@ export default function RegistrationForm() {
 
   const [loading, setLoading] = useState(false);
   const locale = useLocale();
+  const router = useRouter();
 
   const onSubmit = async (formData) => {
     setLoading(true);
@@ -34,13 +35,13 @@ export default function RegistrationForm() {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
-        callbackURL: `/${locale}/profile`
       });
+
       if (error) {
         toast.error(error.message || "রেজিস্ট্রেশন ব্যর্থ হয়েছে");
       } else {
         toast.success("রেজিস্ট্রেশন সফল হয়েছে!");
-        redirect(`/${locale}/profile`)
+        router.push(`/${locale}/profile`);
       }
     } catch (error) {
       console.error("Registration error:", error);
