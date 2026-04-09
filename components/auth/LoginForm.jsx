@@ -33,14 +33,14 @@ export default function LoginForm() {
             const { error } = await authClient.signIn.email({
                 email: formData.email,
                 password: formData.password,
-                callbackURL: `/${locale}`,
+                callbackURL: `/${locale}/profile`,
                 rememberMe: formData.rememberMe,
             });
             if (error) {
                 toast.error(error.message || "লগইন ব্যর্থ হয়েছে");
             } else {
                 toast.success(`${locale === "en" ? "Login successful!" : "লগইন সফল হয়েছে!"}`);
-                redirect(`/${locale}`);
+                redirect(`/${locale}/profile`);
             }
         } catch (err) {
             toast.error(`${locale === "en" ? "An error occurred during login." : "লগইন করার সময় একটি ত্রুটি ঘটেছে."}`);

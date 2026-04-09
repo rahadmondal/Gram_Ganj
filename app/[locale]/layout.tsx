@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
@@ -10,6 +9,7 @@ import { routing } from "@/i18n/routing";
 // ১. গুগল ফন্ট থেকে আপনার পছন্দের ইংরেজি ও বাংলা ফন্ট ইমপোর্ট করুন
 import { Inter, Noto_Sans_Bengali } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/Navbar/Navbar";
 
 // ২. ফন্টগুলো ইনিশিয়ালাইজ করুন
 const inter = Inter({

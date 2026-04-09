@@ -34,13 +34,13 @@ export default function RegistrationForm() {
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
-        callbackURL: "/",
+        callbackURL: `/${locale}/profile`
       });
       if (error) {
         toast.error(error.message || "রেজিস্ট্রেশন ব্যর্থ হয়েছে");
       } else {
         toast.success("রেজিস্ট্রেশন সফল হয়েছে!");
-        redirect(`/${locale}`)
+        redirect(`/${locale}/profile`)
       }
     } catch (error) {
       console.error("Registration error:", error);

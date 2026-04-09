@@ -1,0 +1,1859 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>গ্রামীণ বাজার — আমার প্রোফাইল</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&family=Noto+Serif+Bengali:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
+        --color-green-deep: #2d5a27;
+        --color-green-mid: #4a7c3f;
+        --color-green-light: #7daf6a;
+        --color-green-pale: #e8f0e5;
+        --color-earth-dark: #5c3d1e;
+        --color-earth-mid: #8b5e3c;
+        --color-earth-light: #c4956a;
+        --color-earth-pale: #f5ede3;
+        --color-cream: #fdf8f2;
+        --color-border: #e2d8cc;
+        --color-text-mid: #4a4a4a;
+        --color-text-light: #888888;
+        --color-accent: #d4691e;
+        --color-danger: #c0392b;
+        --color-star: #f4a61a;
+        --font-hind: "Hind Siliguri", sans-serif;
+        --font-noto: "Noto Serif Bengali", serif;
+        --font-playfair: "Playfair Display", serif;
+      }
+
+      body {
+        font-family: var(--font-hind);
+      }
+      .font-noto {
+        font-family: var(--font-noto);
+      }
+      .font-playfair {
+        font-family: var(--font-playfair);
+      }
+
+      /* tab active */
+      .tab-btn.active {
+        color: var(--color-green-deep);
+        border-bottom-color: var(--color-green-deep);
+        font-weight: 700;
+      }
+      .tab-btn:not(.active):hover {
+        color: var(--color-text-mid);
+      }
+
+      /* page section visibility */
+      .tab-panel {
+        display: none;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      /* nav link hover */
+      .nav-link:hover {
+        background: var(--color-green-pale);
+        color: var(--color-green-deep);
+      }
+
+      /* order card hover */
+      .order-card:hover {
+        border-color: var(--color-green-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(45, 90, 39, 0.1);
+      }
+
+      /* wishlist card hover */
+      .wish-card:hover {
+        border-color: var(--color-green-light);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(45, 90, 39, 0.12);
+      }
+
+      /* input focus */
+      .form-input:focus {
+        border-color: var(--color-green-mid);
+        background: white;
+        box-shadow: 0 0 0 4px rgba(74, 124, 63, 0.1);
+      }
+
+      /* avatar ring pulse */
+      @keyframes ringPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(74, 124, 63, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(74, 124, 63, 0);
+        }
+      }
+      .avatar-ring {
+        animation: ringPulse 3s ease-in-out infinite;
+      }
+
+      /* page load fade */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .fade-up {
+        animation: fadeUp 0.4s ease both;
+      }
+
+      /* stat number count-up feel */
+      @keyframes popIn {
+        from {
+          transform: scale(0.7);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .pop-in {
+        animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      }
+
+      /* toast */
+      .toast-show {
+        opacity: 1 !important;
+        transform: translateX(-50%) translateY(0) !important;
+      }
+
+      /* badge dot */
+      .online-dot {
+        background: #4ade80;
+        box-shadow: 0 0 0 2px white;
+      }
+    </style>
+  </head>
+  <body class="bg-cream text-gray-900 antialiased">
+    <!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+    <nav
+      class="bg-white border-b-2 border-green-pale sticky top-0 z-50"
+      style="box-shadow: 0 2px 14px rgba(93, 61, 30, 0.08)"
+    >
+      <div
+        class="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16"
+      >
+        <!-- Logo -->
+        <a
+          href="#"
+          class="flex items-center gap-2.5 no-underline flex-shrink-0"
+        >
+          <div
+            class="w-10 h-10 bg-green-deep rounded-full flex items-center justify-center text-xl"
+          >
+            🌿
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="font-noto text-[17px] font-bold text-green-deep"
+              >গ্রামীণ বাজার</span
+            >
+            <span
+              class="text-[10px] text-earth-mid font-semibold tracking-[1.5px] uppercase"
+              >Grameen Bazar</span
+            >
+          </div>
+        </a>
+
+        <!-- Nav links -->
+        <ul class="hidden md:flex gap-1 list-none">
+          <li>
+            <a
+              href="#"
+              class="nav-link no-underline text-text-mid text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200"
+              >পণ্য সমূহ</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="nav-link no-underline text-text-mid text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200"
+              >কাস্টম অর্ডার</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              class="nav-link no-underline text-text-mid text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200"
+              >আমাদের গল্প</a
+            >
+          </li>
+        </ul>
+
+        <!-- Right actions -->
+        <div class="flex items-center gap-3">
+          <!-- Cart -->
+          <button
+            onclick="showToast('কার্ট খুলছে...')"
+            class="relative w-10 h-10 rounded-xl bg-cream border-2 border-border flex items-center justify-center text-base cursor-pointer hover:border-green-mid transition-colors"
+          >
+            🛒
+            <span
+              class="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full text-white text-[8px] font-bold flex items-center justify-center"
+              >৩</span
+            >
+          </button>
+          <!-- Avatar nav -->
+          <div class="relative">
+            <div
+              class="w-10 h-10 rounded-xl bg-green-pale border-2 border-green-mid/40 flex items-center justify-center text-xl cursor-pointer"
+            >
+              👤
+            </div>
+            <span
+              class="online-dot absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white"
+            ></span>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ════════════════════════════════════════
+     PROFILE HERO BANNER
+════════════════════════════════════════ -->
+    <div class="bg-green-deep relative overflow-hidden">
+      <!-- Radial glow -->
+      <div
+        class="absolute inset-0 pointer-events-none"
+        style="
+          background:
+            radial-gradient(
+              ellipse at 80% 50%,
+              rgba(196, 149, 106, 0.18) 0%,
+              transparent 55%
+            ),
+            radial-gradient(
+              ellipse at 10% 80%,
+              rgba(125, 175, 106, 0.14) 0%,
+              transparent 45%
+            );
+        "
+      ></div>
+      <!-- SVG rings -->
+      <svg
+        class="absolute right-0 bottom-0 w-64 h-64 opacity-[.06] pointer-events-none"
+        viewBox="0 0 300 300"
+        fill="none"
+      >
+        <circle cx="300" cy="300" r="200" stroke="white" stroke-width="1" />
+        <circle cx="300" cy="300" r="140" stroke="white" stroke-width="1" />
+        <circle cx="300" cy="300" r="80" stroke="white" stroke-width="1" />
+      </svg>
+
+      <div class="max-w-[1200px] mx-auto px-5 py-8 relative z-10">
+        <div class="flex flex-col sm:flex-row items-start sm:items-end gap-5">
+          <!-- Avatar -->
+          <div class="relative flex-shrink-0">
+            <div
+              class="avatar-ring w-24 h-24 rounded-3xl bg-green-mid/30 border-[3px] border-earth-light/60 flex items-center justify-center text-5xl shadow-2xl"
+            >
+              👤
+            </div>
+            <button
+              onclick="showToast('ছবি পরিবর্তন করা হচ্ছে...')"
+              class="absolute -bottom-1.5 -right-1.5 w-8 h-8 rounded-xl bg-earth-light border-2 border-white flex items-center justify-center text-sm cursor-pointer hover:bg-accent transition-colors shadow-lg"
+            >
+              📷
+            </button>
+            <span
+              class="online-dot absolute top-1.5 right-1.5 w-3.5 h-3.5 rounded-full border-2 border-green-deep"
+            ></span>
+          </div>
+
+          <!-- User info -->
+          <div class="flex-1">
+            <div class="flex items-center gap-2.5 mb-1 flex-wrap">
+              <h1 class="font-noto text-2xl font-bold text-white">
+                নাহিদা সুলতানা
+              </h1>
+              <span
+                class="bg-earth-light/25 text-earth-light border border-earth-light/30 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
+                >✅ যাচাইকৃত</span
+              >
+            </div>
+            <p class="text-white/55 text-sm mb-3">
+              nahida@example.com · 📱 01712-345678
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="bg-white/[.10] border border-white/[.15] text-white/75 text-xs font-medium px-3 py-1 rounded-full"
+                >📍 ঢাকা, বাংলাদেশ</span
+              >
+              <span
+                class="bg-white/[.10] border border-white/[.15] text-white/75 text-xs font-medium px-3 py-1 rounded-full"
+                >📅 সদস্য: জানুয়ারি ২০২৪</span
+              >
+              <span
+                class="bg-white/[.10] border border-white/[.15] text-white/75 text-xs font-medium px-3 py-1 rounded-full"
+                >🏆 প্রিমিয়াম সদস্য</span
+              >
+            </div>
+          </div>
+
+          <!-- Edit profile button -->
+          <button
+            onclick="switchTab('settings')"
+            class="flex-shrink-0 flex items-center gap-2 bg-white/[.12] hover:bg-white/[.20] border border-white/20 text-white text-sm font-semibold px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-200"
+          >
+            ✏️ প্রোফাইল সম্পাদনা
+          </button>
+        </div>
+
+        <!-- Stats strip -->
+        <div
+          class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-white/[.10]"
+        >
+          <div class="text-center pop-in" style="animation-delay: 0.05s">
+            <div class="font-playfair text-2xl font-bold text-earth-light">
+              ২৪
+            </div>
+            <div
+              class="text-[11px] text-white/45 uppercase tracking-[.5px] mt-0.5 font-noto"
+            >
+              মোট অর্ডার
+            </div>
+          </div>
+          <div class="text-center pop-in" style="animation-delay: 0.1s">
+            <div class="font-playfair text-2xl font-bold text-earth-light">
+              ৮
+            </div>
+            <div
+              class="text-[11px] text-white/45 uppercase tracking-[.5px] mt-0.5 font-noto"
+            >
+              উইশলিস্ট
+            </div>
+          </div>
+          <div class="text-center pop-in" style="animation-delay: 0.15s">
+            <div class="font-playfair text-2xl font-bold text-earth-light">
+              ৳৩৪,৫৬০
+            </div>
+            <div
+              class="text-[11px] text-white/45 uppercase tracking-[.5px] mt-0.5 font-noto"
+            >
+              মোট ব্যয়
+            </div>
+          </div>
+          <div class="text-center pop-in" style="animation-delay: 0.2s">
+            <div class="font-playfair text-2xl font-bold text-earth-light">
+              ১২
+            </div>
+            <div
+              class="text-[11px] text-white/45 uppercase tracking-[.5px] mt-0.5 font-noto"
+            >
+              রিভিউ দিয়েছি
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     TAB BAR
+════════════════════════════════════════ -->
+    <div
+      class="bg-white border-b-2 border-border sticky top-16 z-40"
+      style="box-shadow: 0 2px 8px rgba(93, 61, 30, 0.04)"
+    >
+      <div class="max-w-300 mx-auto px-5">
+        <div class="flex overflow-x-auto gap-0 scrollbar-hide" id="tabBar">
+          <button
+            onclick="switchTab('orders')"
+            class="tab-btn active flex items-center gap-2 px-5 py-4 text-sm font-medium text-text-light border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px] bg-transparent cursor-pointer"
+          >
+            📦 আমার অর্ডার
+            <span
+              class="bg-green-pale text-green-deep text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+              >২৪</span
+            >
+          </button>
+          <button
+            onclick="switchTab('wishlist')"
+            class="tab-btn flex items-center gap-2 px-5 py-4 text-sm font-medium text-text-light border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px] bg-transparent cursor-pointer"
+          >
+            ❤️ উইশলিস্ট
+            <span
+              class="bg-earth-pale text-earth-mid text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+              >৮</span
+            >
+          </button>
+          <button
+            onclick="switchTab('addresses')"
+            class="tab-btn flex items-center gap-2 px-5 py-4 text-sm font-medium text-text-light border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px] bg-transparent cursor-pointer"
+          >
+            📍 ঠিকানা
+          </button>
+          <button
+            onclick="switchTab('reviews')"
+            class="tab-btn flex items-center gap-2 px-5 py-4 text-sm font-medium text-text-light border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px] bg-transparent cursor-pointer"
+          >
+            ⭐ আমার রিভিউ
+          </button>
+          <button
+            onclick="switchTab('settings')"
+            class="tab-btn flex items-center gap-2 px-5 py-4 text-sm font-medium text-text-light border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px] bg-transparent cursor-pointer"
+          >
+            ⚙️ সেটিংস
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
+    <div class="max-w-[1200px] mx-auto px-5 py-7">
+      <!-- ══════════════════════════
+       TAB: MY ORDERS
+  ══════════════════════════ -->
+      <div id="tab-orders" class="tab-panel active fade-up">
+        <!-- Filter bar -->
+        <div class="flex flex-wrap gap-3 items-center mb-5">
+          <div class="flex gap-1.5 flex-wrap">
+            <button
+              onclick="filterOrders('all', this)"
+              class="order-filter active-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-green-deep bg-green-deep text-white cursor-pointer transition-all"
+            >
+              সব অর্ডার
+            </button>
+            <button
+              onclick="filterOrders('processing', this)"
+              class="order-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-border bg-cream text-text-mid cursor-pointer transition-all hover:border-green-mid hover:text-green-deep"
+            >
+              প্রক্রিয়াধীন
+            </button>
+            <button
+              onclick="filterOrders('shipped', this)"
+              class="order-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-border bg-cream text-text-mid cursor-pointer transition-all hover:border-green-mid hover:text-green-deep"
+            >
+              পাঠানো হয়েছে
+            </button>
+            <button
+              onclick="filterOrders('delivered', this)"
+              class="order-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-border bg-cream text-text-mid cursor-pointer transition-all hover:border-green-mid hover:text-green-deep"
+            >
+              ডেলিভারি
+            </button>
+            <button
+              onclick="filterOrders('cancelled', this)"
+              class="order-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-border bg-cream text-text-mid cursor-pointer transition-all hover:border-green-mid hover:text-green-deep"
+            >
+              বাতিল
+            </button>
+          </div>
+          <div class="ml-auto relative hidden sm:block">
+            <span
+              class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+              >🔍</span
+            >
+            <input
+              type="text"
+              placeholder="অর্ডার খুঁজুন..."
+              class="form-input pl-9 pr-4 py-2 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200 placeholder:text-text-light w-48"
+            />
+          </div>
+        </div>
+
+        <!-- Order cards -->
+        <div class="space-y-4" id="ordersList">
+          <!-- Order 1 -->
+          <div
+            class="order-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200"
+            data-status="delivered"
+          >
+            <!-- Card header -->
+            <div
+              class="flex items-center justify-between px-5 py-3.5 bg-cream border-b border-border flex-wrap gap-2"
+            >
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-mono text-xs font-bold text-green-mid"
+                  >#GB-1023</span
+                >
+                <span class="text-text-light text-xs">·</span>
+                <span class="text-xs text-text-light font-noto"
+                  >১৫ মার্চ ২০২৬</span
+                >
+              </div>
+              <span
+                class="bg-green-pale text-green-deep text-[10px] font-bold px-3 py-1 rounded-full"
+                >✅ ডেলিভারি হয়েছে</span
+              >
+            </div>
+            <!-- Card body -->
+            <div class="p-5">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <!-- Product image -->
+                <div
+                  class="w-full sm:w-20 h-20 rounded-xl bg-green-pale flex items-center justify-center text-4xl flex-shrink-0"
+                >
+                  🥻
+                </div>
+                <!-- Product info -->
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 flex-wrap">
+                    <div>
+                      <h4
+                        class="font-noto font-bold text-gray-900 text-base mb-0.5"
+                      >
+                        জামদানি শাড়ি
+                      </h4>
+                      <p class="text-xs text-text-light mb-1">
+                        📍 টাঙ্গাইল · কারিগর: রহিমা বেগম
+                      </p>
+                      <p class="text-xs text-text-mid">
+                        রং: লাল · সাইজ: M · পরিমাণ: ১টি
+                      </p>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                      <div
+                        class="font-playfair text-lg font-bold text-green-deep"
+                      >
+                        ৳৩,৫০০
+                      </div>
+                      <div class="text-xs text-text-light line-through">
+                        ৳৪,২০০
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Actions -->
+                  <div
+                    class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border"
+                  >
+                    <button
+                      onclick="showToast('পুনরায় অর্ডার করা হচ্ছে...')"
+                      class="flex items-center gap-1.5 bg-green-deep text-white text-xs font-semibold px-3.5 py-2 rounded-xl border-none cursor-pointer hover:bg-green-mid transition-colors font-noto"
+                    >
+                      🔁 পুনরায় অর্ডার
+                    </button>
+                    <button
+                      onclick="showToast('রিভিউ ফর্ম খুলছে...')"
+                      class="flex items-center gap-1.5 bg-cream text-text-mid text-xs font-semibold px-3.5 py-2 rounded-xl border-2 border-border cursor-pointer hover:border-green-mid hover:text-green-deep transition-all"
+                    >
+                      ⭐ রিভিউ দিন
+                    </button>
+                    <button
+                      onclick="showToast('ইনভয়েস ডাউনলোড হচ্ছে...')"
+                      class="flex items-center gap-1.5 bg-cream text-text-mid text-xs font-semibold px-3.5 py-2 rounded-xl border-2 border-border cursor-pointer hover:border-green-mid hover:text-green-deep transition-all"
+                    >
+                      📄 ইনভয়েস
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- Delivery timeline -->
+              <div class="mt-4 pt-4 border-t border-border">
+                <p
+                  class="text-xs font-semibold text-text-light uppercase tracking-wide mb-3 font-noto"
+                >
+                  ডেলিভারি ট্র্যাকিং
+                </p>
+                <div class="flex items-center gap-0 overflow-x-auto pb-1">
+                  <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full bg-green-deep text-white flex items-center justify-center text-sm"
+                    >
+                      ✓
+                    </div>
+                    <span
+                      class="text-[9px] text-green-mid font-bold text-center"
+                      >অর্ডার<br />নেওয়া</span
+                    >
+                  </div>
+                  <div class="flex-1 h-0.5 bg-green-deep min-w-[40px]"></div>
+                  <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full bg-green-deep text-white flex items-center justify-center text-sm"
+                    >
+                      ✓
+                    </div>
+                    <span
+                      class="text-[9px] text-green-mid font-bold text-center"
+                      >তৈরি<br />হচ্ছে</span
+                    >
+                  </div>
+                  <div class="flex-1 h-0.5 bg-green-deep min-w-[40px]"></div>
+                  <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full bg-green-deep text-white flex items-center justify-center text-sm"
+                    >
+                      ✓
+                    </div>
+                    <span
+                      class="text-[9px] text-green-mid font-bold text-center"
+                      >পাঠানো<br />হয়েছে</span
+                    >
+                  </div>
+                  <div class="flex-1 h-0.5 bg-green-deep min-w-[40px]"></div>
+                  <div class="flex flex-col items-center gap-1.5 flex-shrink-0">
+                    <div
+                      class="w-8 h-8 rounded-full bg-green-deep text-white flex items-center justify-center text-sm shadow-lg shadow-green-deep/30"
+                    >
+                      🏠
+                    </div>
+                    <span
+                      class="text-[9px] text-green-deep font-bold text-center"
+                      >ডেলিভারি<br />সম্পন্ন</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order 2 -->
+          <div
+            class="order-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200"
+            data-status="shipped"
+          >
+            <div
+              class="flex items-center justify-between px-5 py-3.5 bg-cream border-b border-border flex-wrap gap-2"
+            >
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-mono text-xs font-bold text-green-mid"
+                  >#GB-1022</span
+                >
+                <span class="text-text-light text-xs">·</span>
+                <span class="text-xs text-text-light font-noto"
+                  >৮ এপ্রিল ২০২৬</span
+                >
+              </div>
+              <span
+                class="bg-yellow-50 text-yellow-700 text-[10px] font-bold px-3 py-1 rounded-full"
+                >🚚 পাঠানো হয়েছে</span
+              >
+            </div>
+            <div class="p-5">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div
+                  class="w-full sm:w-20 h-20 rounded-xl bg-earth-pale flex items-center justify-center text-4xl flex-shrink-0"
+                >
+                  🍯
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 flex-wrap">
+                    <div>
+                      <h4
+                        class="font-noto font-bold text-gray-900 text-base mb-0.5"
+                      >
+                        সুন্দরবনের খাঁটি মধু
+                      </h4>
+                      <p class="text-xs text-text-light mb-1">
+                        📍 বাগেরহাট · কারিগর: করিম মৌয়াল
+                      </p>
+                      <p class="text-xs text-text-mid">
+                        পরিমাণ: ২টি (৫০০গ্রাম)
+                      </p>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                      <div
+                        class="font-playfair text-lg font-bold text-green-deep"
+                      >
+                        ৳১,৩০০
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Tracking info -->
+                  <div
+                    class="mt-3 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-3 flex items-center gap-3"
+                  >
+                    <span class="text-xl">🚚</span>
+                    <div>
+                      <p class="text-xs font-bold text-yellow-700 font-noto">
+                        আনুমানিক ডেলিভারি: ১০ এপ্রিল ২০২৬
+                      </p>
+                      <p class="text-[11px] text-yellow-600 mt-0.5">
+                        ট্র্যাকিং নাম্বার: BD-TRK-892341
+                      </p>
+                    </div>
+                    <button
+                      onclick="showToast('ট্র্যাকিং পেজ খুলছে...')"
+                      class="ml-auto bg-yellow-100 text-yellow-700 text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-yellow-200 transition-colors whitespace-nowrap"
+                    >
+                      ট্র্যাক করুন →
+                    </button>
+                  </div>
+                  <div class="flex flex-wrap gap-2 mt-3">
+                    <button
+                      onclick="showToast('অর্ডার বিবরণ দেখা হচ্ছে...')"
+                      class="flex items-center gap-1.5 bg-cream text-text-mid text-xs font-semibold px-3.5 py-2 rounded-xl border-2 border-border cursor-pointer hover:border-green-mid hover:text-green-deep transition-all"
+                    >
+                      👁 বিবরণ দেখুন
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order 3 -->
+          <div
+            class="order-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200"
+            data-status="processing"
+          >
+            <div
+              class="flex items-center justify-between px-5 py-3.5 bg-cream border-b border-border flex-wrap gap-2"
+            >
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-mono text-xs font-bold text-green-mid"
+                  >#GB-1021</span
+                >
+                <span class="text-text-light text-xs">·</span>
+                <span class="text-xs text-text-light font-noto"
+                  >৬ এপ্রিল ২০২৬</span
+                >
+              </div>
+              <span
+                class="bg-blue-50 text-blue-600 text-[10px] font-bold px-3 py-1 rounded-full"
+                >⏳ প্রক্রিয়াধীন</span
+              >
+            </div>
+            <div class="p-5">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div
+                  class="w-full sm:w-20 h-20 rounded-xl bg-green-pale flex items-center justify-center text-4xl flex-shrink-0"
+                >
+                  🧶
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 flex-wrap">
+                    <div>
+                      <h4
+                        class="font-noto font-bold text-gray-900 text-base mb-0.5"
+                      >
+                        নকশিকাঁথা (কিং সাইজ)
+                      </h4>
+                      <p class="text-xs text-text-light mb-1">
+                        📍 জামালপুর · কারিগর: ফাতেমা বেগম
+                      </p>
+                      <p class="text-xs text-text-mid">সাইজ: ৯০×১০৮ ইঞ্চি</p>
+                    </div>
+                    <div class="text-right flex-shrink-0">
+                      <div
+                        class="font-playfair text-lg font-bold text-green-deep"
+                      >
+                        ৳২,২০০
+                      </div>
+                      <div class="text-xs text-text-light line-through">
+                        ৳৩,০০০
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="mt-3 bg-blue-50 border border-blue-100 rounded-xl px-4 py-3"
+                  >
+                    <p class="text-[11px] text-blue-600 font-noto">
+                      কারিগর পণ্য তৈরি করছেন — আনুমানিক ৩-৫ দিনের মধ্যে পাঠানো
+                      হবে
+                    </p>
+                  </div>
+                  <div class="flex flex-wrap gap-2 mt-3">
+                    <button
+                      onclick="
+                        showToast('অর্ডার বাতিল করার অনুরোধ পাঠানো হচ্ছে...')
+                      "
+                      class="flex items-center gap-1.5 bg-red-50 text-danger text-xs font-semibold px-3.5 py-2 rounded-xl border-2 border-red-100 cursor-pointer hover:bg-danger hover:text-white transition-all"
+                    >
+                      ❌ বাতিল করুন
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order 4 — cancelled -->
+          <div
+            class="order-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 opacity-70"
+            data-status="cancelled"
+          >
+            <div
+              class="flex items-center justify-between px-5 py-3.5 bg-cream border-b border-border flex-wrap gap-2"
+            >
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-mono text-xs font-bold text-text-light"
+                  >#GB-1018</span
+                >
+                <span class="text-text-light text-xs">·</span>
+                <span class="text-xs text-text-light font-noto"
+                  >১ মার্চ ২০২৬</span
+                >
+              </div>
+              <span
+                class="bg-red-50 text-danger text-[10px] font-bold px-3 py-1 rounded-full"
+                >❌ বাতিল</span
+              >
+            </div>
+            <div class="p-5">
+              <div class="flex flex-col sm:flex-row gap-4">
+                <div
+                  class="w-full sm:w-20 h-20 rounded-xl bg-earth-pale flex items-center justify-center text-4xl flex-shrink-0 grayscale opacity-60"
+                >
+                  🥄
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 flex-wrap">
+                    <div>
+                      <h4
+                        class="font-noto font-bold text-gray-500 text-base mb-0.5 line-through"
+                      >
+                        কাঠের পাত্র সেট
+                      </h4>
+                      <p class="text-xs text-text-light">
+                        📍 সিলেট · বাতিলের কারণ: স্টক শেষ
+                      </p>
+                    </div>
+                    <div class="text-right">
+                      <div
+                        class="font-playfair text-lg font-bold text-text-light line-through"
+                      >
+                        ৳৯৫০
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-border"
+                  >
+                    <button
+                      onclick="showToast('পুনরায় অর্ডার করা হচ্ছে...')"
+                      class="flex items-center gap-1.5 bg-green-deep text-white text-xs font-semibold px-3.5 py-2 rounded-xl border-none cursor-pointer hover:bg-green-mid transition-colors font-noto"
+                    >
+                      🔁 পুনরায় অর্ডার
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════
+       TAB: WISHLIST
+  ══════════════════════════ -->
+      <div id="tab-wishlist" class="tab-panel fade-up">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="font-noto font-bold text-gray-900 text-lg">
+            উইশলিস্ট
+            <span class="text-text-light text-sm font-normal">(৮টি পণ্য)</span>
+          </h3>
+          <button
+            onclick="showToast('সব পণ্য কার্টে যোগ করা হচ্ছে...')"
+            class="bg-green-deep text-white text-xs font-semibold px-4 py-2 rounded-xl border-none cursor-pointer hover:bg-green-mid transition-colors font-noto"
+          >
+            🛒 সব কার্টে যোগ
+          </button>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+          <!-- Wish items -->
+          <div
+            class="wish-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 cursor-pointer relative group"
+          >
+            <div
+              class="h-36 bg-green-pale flex items-center justify-center text-5xl relative"
+            >
+              🥻
+              <button
+                onclick="showToast('উইশলিস্ট থেকে সরানো হয়েছে!')"
+                class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm text-danger border-none cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-3.5">
+              <div
+                class="text-[10px] text-earth-mid font-semibold uppercase tracking-wide mb-1"
+              >
+                টাঙ্গাইল
+              </div>
+              <div
+                class="font-noto text-[13px] font-bold text-gray-900 mb-0.5 leading-tight"
+              >
+                জামদানি শাড়ি
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div>
+                  <span
+                    class="font-playfair font-bold text-green-deep text-base"
+                    >৳৩,৫০০</span
+                  >
+                </div>
+                <button
+                  onclick="showToast('কার্টে যোগ হয়েছে!')"
+                  class="bg-green-deep text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-green-mid transition-colors"
+                >
+                  + কার্ট
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="wish-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 cursor-pointer relative group"
+          >
+            <div
+              class="h-36 bg-earth-pale flex items-center justify-center text-5xl relative"
+            >
+              🍯
+              <span
+                class="absolute top-2 left-2 bg-accent text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                >🔥 হট</span
+              >
+              <button
+                onclick="showToast('উইশলিস্ট থেকে সরানো হয়েছে!')"
+                class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm text-danger border-none cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-3.5">
+              <div
+                class="text-[10px] text-earth-mid font-semibold uppercase tracking-wide mb-1"
+              >
+                বাগেরহাট
+              </div>
+              <div
+                class="font-noto text-[13px] font-bold text-gray-900 mb-0.5 leading-tight"
+              >
+                সুন্দরবনের মধু
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div>
+                  <span
+                    class="font-playfair font-bold text-green-deep text-base"
+                    >৳৬৫০</span
+                  >
+                </div>
+                <button
+                  onclick="showToast('কার্টে যোগ হয়েছে!')"
+                  class="bg-green-deep text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-green-mid transition-colors"
+                >
+                  + কার্ট
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="wish-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 cursor-pointer relative group"
+          >
+            <div
+              class="h-36 bg-green-pale flex items-center justify-center text-5xl relative"
+            >
+              🧶
+              <button
+                onclick="showToast('উইশলিস্ট থেকে সরানো হয়েছে!')"
+                class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm text-danger border-none cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-3.5">
+              <div
+                class="text-[10px] text-earth-mid font-semibold uppercase tracking-wide mb-1"
+              >
+                জামালপুর
+              </div>
+              <div
+                class="font-noto text-[13px] font-bold text-gray-900 mb-0.5 leading-tight"
+              >
+                নকশিকাঁথা
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div>
+                  <span
+                    class="font-playfair font-bold text-green-deep text-base"
+                    >৳২,২০০</span
+                  >
+                </div>
+                <button
+                  onclick="showToast('কার্টে যোগ হয়েছে!')"
+                  class="bg-green-deep text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-green-mid transition-colors"
+                >
+                  + কার্ট
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="wish-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 cursor-pointer relative group"
+          >
+            <div
+              class="h-36 bg-earth-pale flex items-center justify-center text-5xl relative"
+            >
+              🏺
+              <span
+                class="absolute top-2 left-2 bg-green-mid text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full"
+                >✨ নতুন</span
+              >
+              <button
+                onclick="showToast('উইশলিস্ট থেকে সরানো হয়েছে!')"
+                class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm text-danger border-none cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-3.5">
+              <div
+                class="text-[10px] text-earth-mid font-semibold uppercase tracking-wide mb-1"
+              >
+                রাজশাহী
+              </div>
+              <div
+                class="font-noto text-[13px] font-bold text-gray-900 mb-0.5 leading-tight"
+              >
+                মাটির হাঁড়ি সেট
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div>
+                  <span
+                    class="font-playfair font-bold text-green-deep text-base"
+                    >৳৪৫০</span
+                  >
+                </div>
+                <button
+                  onclick="showToast('কার্টে যোগ হয়েছে!')"
+                  class="bg-green-deep text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-green-mid transition-colors"
+                >
+                  + কার্ট
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="wish-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 cursor-pointer relative group"
+          >
+            <div
+              class="h-36 bg-green-pale flex items-center justify-center text-5xl relative"
+            >
+              🧣
+              <button
+                onclick="showToast('উইশলিস্ট থেকে সরানো হয়েছে!')"
+                class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm text-danger border-none cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-3.5">
+              <div
+                class="text-[10px] text-earth-mid font-semibold uppercase tracking-wide mb-1"
+              >
+                রংপুর
+              </div>
+              <div
+                class="font-noto text-[13px] font-bold text-gray-900 mb-0.5 leading-tight"
+              >
+                হাতে বোনা শাল
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div>
+                  <span
+                    class="font-playfair font-bold text-green-deep text-base"
+                    >৳৭৮০</span
+                  >
+                </div>
+                <button
+                  onclick="showToast('কার্টে যোগ হয়েছে!')"
+                  class="bg-green-deep text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-green-mid transition-colors"
+                >
+                  + কার্ট
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="wish-card bg-white rounded-2xl border-2 border-border overflow-hidden transition-all duration-200 cursor-pointer relative group"
+          >
+            <div
+              class="h-36 bg-earth-pale flex items-center justify-center text-5xl relative"
+            >
+              👜
+              <button
+                onclick="showToast('উইশলিস্ট থেকে সরানো হয়েছে!')"
+                class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full flex items-center justify-center text-sm text-danger border-none cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+              >
+                ✕
+              </button>
+            </div>
+            <div class="p-3.5">
+              <div
+                class="text-[10px] text-earth-mid font-semibold uppercase tracking-wide mb-1"
+              >
+                খুলনা
+              </div>
+              <div
+                class="font-noto text-[13px] font-bold text-gray-900 mb-0.5 leading-tight"
+              >
+                পাটের ব্যাগ
+              </div>
+              <div class="flex items-center justify-between mt-2">
+                <div>
+                  <span
+                    class="font-playfair font-bold text-green-deep text-base"
+                    >৳৩৫০</span
+                  >
+                </div>
+                <button
+                  onclick="showToast('কার্টে যোগ হয়েছে!')"
+                  class="bg-green-deep text-white text-[11px] font-bold px-2.5 py-1.5 rounded-lg border-none cursor-pointer hover:bg-green-mid transition-colors"
+                >
+                  + কার্ট
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════
+       TAB: ADDRESSES
+  ══════════════════════════ -->
+      <div id="tab-addresses" class="tab-panel fade-up">
+        <div class="flex items-center justify-between mb-5">
+          <h3 class="font-noto font-bold text-gray-900 text-lg">
+            সংরক্ষিত ঠিকানা
+          </h3>
+          <button
+            onclick="showToast('নতুন ঠিকানা যোগ করার ফর্ম খুলছে...')"
+            class="bg-green-deep text-white text-xs font-semibold px-4 py-2.5 rounded-xl border-none cursor-pointer hover:bg-green-mid transition-colors font-noto flex items-center gap-1.5"
+          >
+            + নতুন ঠিকানা
+          </button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Address 1 (default) -->
+          <div
+            class="bg-white rounded-2xl border-2 border-green-mid/40 p-5 relative"
+          >
+            <span
+              class="absolute top-4 right-4 bg-green-pale text-green-deep text-[9px] font-bold px-2 py-0.5 rounded-full"
+              >✅ ডিফল্ট</span
+            >
+            <div
+              class="w-10 h-10 bg-green-pale rounded-xl flex items-center justify-center text-xl mb-4"
+            >
+              🏠
+            </div>
+            <h4 class="font-noto font-bold text-gray-900 mb-1">বাড়ি</h4>
+            <p class="text-sm text-text-mid leading-relaxed font-noto">
+              নাহিদা সুলতানা<br />
+              বাসা ১৫, রোড ৭, ব্লক সি<br />
+              বনানী, ঢাকা-১২১৩<br />
+              📱 01712-345678
+            </p>
+            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+              <button
+                onclick="showToast('ঠিকানা সম্পাদনা হচ্ছে...')"
+                class="flex-1 bg-green-pale text-green-deep text-xs font-semibold py-2 rounded-xl border-none cursor-pointer hover:bg-green-deep hover:text-white transition-colors"
+              >
+                ✏️ সম্পাদনা
+              </button>
+            </div>
+          </div>
+
+          <!-- Address 2 -->
+          <div class="bg-white rounded-2xl border-2 border-border p-5 relative">
+            <div
+              class="w-10 h-10 bg-earth-pale rounded-xl flex items-center justify-center text-xl mb-4"
+            >
+              🏢
+            </div>
+            <h4 class="font-noto font-bold text-gray-900 mb-1">অফিস</h4>
+            <p class="text-sm text-text-mid leading-relaxed font-noto">
+              নাহিদা সুলতানা<br />
+              ৪র্থ তলা, আল-রাজী কমপ্লেক্স<br />
+              মতিঝিল, ঢাকা-১০০০<br />
+              📱 01712-345678
+            </p>
+            <div class="flex gap-2 mt-4 pt-4 border-t border-border">
+              <button
+                onclick="showToast('ডিফল্ট ঠিকানা পরিবর্তন হচ্ছে...')"
+                class="flex-1 bg-cream text-text-mid text-xs font-semibold py-2 rounded-xl border-2 border-border cursor-pointer hover:border-green-mid hover:text-green-deep transition-all"
+              >
+                ডিফল্ট করুন
+              </button>
+              <button
+                onclick="showToast('ঠিকানা সম্পাদনা হচ্ছে...')"
+                class="flex-1 bg-cream text-text-mid text-xs font-semibold py-2 rounded-xl border-2 border-border cursor-pointer hover:border-green-mid hover:text-green-deep transition-all"
+              >
+                ✏️ সম্পাদনা
+              </button>
+              <button
+                onclick="showToast('ঠিকানা মুছে ফেলা হয়েছে!', true)"
+                class="w-9 h-9 bg-red-50 text-danger text-sm rounded-xl border-none cursor-pointer hover:bg-danger hover:text-white transition-colors flex items-center justify-center flex-shrink-0"
+              >
+                🗑
+              </button>
+            </div>
+          </div>
+
+          <!-- Add new address card -->
+          <button
+            onclick="showToast('নতুন ঠিকানা যোগ করার ফর্ম খুলছে...')"
+            class="bg-cream rounded-2xl border-2 border-dashed border-border p-5 flex flex-col items-center justify-center gap-3 cursor-pointer hover:border-green-mid hover:bg-green-pale transition-all duration-200 min-h-[180px]"
+          >
+            <div
+              class="w-12 h-12 rounded-xl bg-white border-2 border-border flex items-center justify-center text-2xl"
+            >
+              📍
+            </div>
+            <div class="text-center">
+              <div class="font-noto font-semibold text-text-mid text-sm">
+                নতুন ঠিকানা যোগ করুন
+              </div>
+              <div class="text-xs text-text-light mt-1">
+                ক্লিক করে নতুন ঠিকানা সংরক্ষণ করুন
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════
+       TAB: MY REVIEWS
+  ══════════════════════════ -->
+      <div id="tab-reviews" class="tab-panel fade-up">
+        <h3 class="font-noto font-bold text-gray-900 text-lg mb-5">
+          আমার রিভিউ
+          <span class="text-text-light text-sm font-normal">(১২টি)</span>
+        </h3>
+        <div class="space-y-4">
+          <div class="bg-white rounded-2xl border-2 border-border p-5">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-14 h-14 rounded-xl bg-green-pale flex items-center justify-center text-3xl flex-shrink-0"
+                >
+                  🥻
+                </div>
+                <div>
+                  <h4 class="font-noto font-bold text-gray-900 text-sm">
+                    জামদানি শাড়ি
+                  </h4>
+                  <div class="text-[10px] text-text-light mb-1.5">
+                    📍 টাঙ্গাইল · ১৫ মার্চ ২০২৬
+                  </div>
+                  <div class="text-star text-sm">★★★★★</div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  onclick="showToast('রিভিউ সম্পাদনা হচ্ছে...')"
+                  class="bg-green-pale text-green-deep text-xs font-semibold px-3 py-1.5 rounded-xl border-none cursor-pointer hover:bg-green-deep hover:text-white transition-colors"
+                >
+                  ✏️ সম্পাদনা
+                </button>
+                <button
+                  onclick="showToast('রিভিউ মুছে ফেলা হয়েছে!', true)"
+                  class="bg-red-50 text-danger text-xs font-semibold px-3 py-1.5 rounded-xl border-none cursor-pointer hover:bg-danger hover:text-white transition-colors"
+                >
+                  🗑 মুছুন
+                </button>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-text-mid font-noto leading-[1.75]">
+              অসাধারণ মানের শাড়ি! রঙ এবং নকশা একদম ছবির মতো। ডেলিভারি সময়মতো
+              এসেছে। কারিগরের গল্পটা পড়ে মনে হলো এই কেনাকাটাটা শুধু শাড়ি কেনা
+              না — একজন মানুষের স্বপ্নকে সমর্থন করা।
+            </p>
+            <div
+              class="mt-3 pt-3 border-t border-border flex items-center gap-2"
+            >
+              <span
+                class="bg-green-pale text-green-deep text-[10px] font-bold px-2.5 py-1 rounded-full"
+                >✅ প্রকাশিত</span
+              >
+              <span class="text-[11px] text-text-light"
+                >৪৮ জন সহায়ক মনে করেছেন</span
+              >
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border-2 border-border p-5">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-14 h-14 rounded-xl bg-earth-pale flex items-center justify-center text-3xl flex-shrink-0"
+                >
+                  🍯
+                </div>
+                <div>
+                  <h4 class="font-noto font-bold text-gray-900 text-sm">
+                    সুন্দরবনের মধু
+                  </h4>
+                  <div class="text-[10px] text-text-light mb-1.5">
+                    📍 বাগেরহাট · ২ মার্চ ২০২৬
+                  </div>
+                  <div class="text-star text-sm">★★★★★</div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  onclick="showToast('রিভিউ সম্পাদনা হচ্ছে...')"
+                  class="bg-green-pale text-green-deep text-xs font-semibold px-3 py-1.5 rounded-xl border-none cursor-pointer hover:bg-green-deep hover:text-white transition-colors"
+                >
+                  ✏️ সম্পাদনা
+                </button>
+                <button
+                  onclick="showToast('রিভিউ মুছে ফেলা হয়েছে!', true)"
+                  class="bg-red-50 text-danger text-xs font-semibold px-3 py-1.5 rounded-xl border-none cursor-pointer hover:bg-danger hover:text-white transition-colors"
+                >
+                  🗑 মুছুন
+                </button>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-text-mid font-noto leading-[1.75]">
+              একদম খাঁটি মধু। পরিবারের সবাই মুগ্ধ হয়েছে। আর কখনো বাজারের মধু
+              কিনব না।
+            </p>
+            <div
+              class="mt-3 pt-3 border-t border-border flex items-center gap-2"
+            >
+              <span
+                class="bg-green-pale text-green-deep text-[10px] font-bold px-2.5 py-1 rounded-full"
+                >✅ প্রকাশিত</span
+              >
+              <span class="text-[11px] text-text-light"
+                >২৩ জন সহায়ক মনে করেছেন</span
+              >
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border-2 border-yellow-200 p-5">
+            <div class="flex items-start justify-between gap-4 flex-wrap">
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-14 h-14 rounded-xl bg-green-pale flex items-center justify-center text-3xl flex-shrink-0"
+                >
+                  🧶
+                </div>
+                <div>
+                  <h4 class="font-noto font-bold text-gray-900 text-sm">
+                    নকশিকাঁথা
+                  </h4>
+                  <div class="text-[10px] text-text-light mb-1.5">
+                    📍 জামালপুর · ২৮ ফেব্রুয়ারি ২০২৬
+                  </div>
+                  <div class="text-star text-sm">★★★★☆</div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  onclick="showToast('রিভিউ সম্পাদনা হচ্ছে...')"
+                  class="bg-green-pale text-green-deep text-xs font-semibold px-3 py-1.5 rounded-xl border-none cursor-pointer hover:bg-green-deep hover:text-white transition-colors"
+                >
+                  ✏️ সম্পাদনা
+                </button>
+              </div>
+            </div>
+            <p class="mt-3 text-sm text-text-mid font-noto leading-[1.75]">
+              কাজ অসাধারণ, তবে ডেলিভারিতে একটু দেরি হয়েছিল।
+            </p>
+            <div
+              class="mt-3 pt-3 border-t border-border flex items-center gap-2"
+            >
+              <span
+                class="bg-yellow-50 text-yellow-700 text-[10px] font-bold px-2.5 py-1 rounded-full"
+                >⏳ যাচাই হচ্ছে</span
+              >
+              <span class="text-[11px] text-text-light"
+                >রিভিউটি পর্যালোচনার অপেক্ষায়</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════
+       TAB: SETTINGS
+  ══════════════════════════ -->
+      <div id="tab-settings" class="tab-panel fade-up">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Left: Profile form -->
+          <div class="lg:col-span-2 space-y-5">
+            <!-- Personal info card -->
+            <div class="bg-white rounded-2xl border-2 border-border p-6">
+              <div
+                class="flex items-center gap-2 mb-5 pb-4 border-b border-border"
+              >
+                <span class="text-xl">👤</span>
+                <h3 class="font-noto font-bold text-gray-900">
+                  ব্যক্তিগত তথ্য
+                </h3>
+              </div>
+              <form
+                onsubmit="
+                  event.preventDefault();
+                  showToast('প্রোফাইল আপডেট হয়েছে!');
+                "
+                class="space-y-4"
+              >
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                      >সম্পূর্ণ নাম</label
+                    >
+                    <div class="relative">
+                      <span
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                        >👤</span
+                      >
+                      <input
+                        type="text"
+                        value="নাহিদা সুলতানা"
+                        class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                      >ইমেইল</label
+                    >
+                    <div class="relative">
+                      <span
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                        >✉️</span
+                      >
+                      <input
+                        type="email"
+                        value="nahida@example.com"
+                        class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                      >মোবাইল নাম্বার</label
+                    >
+                    <div class="relative">
+                      <span
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                        >📱</span
+                      >
+                      <input
+                        type="tel"
+                        value="01712-345678"
+                        class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                      >জন্ম তারিখ</label
+                    >
+                    <div class="relative">
+                      <span
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                        >📅</span
+                      >
+                      <input
+                        type="date"
+                        value="1995-06-15"
+                        class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                    >লিঙ্গ</label
+                  >
+                  <div class="flex gap-3 flex-wrap">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="female"
+                        checked
+                        class="accent-green-deep w-4 h-4"
+                      />
+                      <span class="text-sm text-text-mid">মহিলা</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="male"
+                        class="accent-green-deep w-4 h-4"
+                      />
+                      <span class="text-sm text-text-mid">পুরুষ</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="gender"
+                        value="other"
+                        class="accent-green-deep w-4 h-4"
+                      />
+                      <span class="text-sm text-text-mid">অন্যান্য</span>
+                    </label>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto bg-green-deep text-white font-noto font-bold text-sm px-8 py-3 rounded-xl border-none cursor-pointer hover:bg-green-mid transition-colors hover:-translate-y-0.5 hover:shadow-lg transition-all"
+                >
+                  ✅ পরিবর্তন সংরক্ষণ করুন
+                </button>
+              </form>
+            </div>
+
+            <!-- Password card -->
+            <div class="bg-white rounded-2xl border-2 border-border p-6">
+              <div
+                class="flex items-center gap-2 mb-5 pb-4 border-b border-border"
+              >
+                <span class="text-xl">🔒</span>
+                <h3 class="font-noto font-bold text-gray-900">
+                  পাসওয়ার্ড পরিবর্তন
+                </h3>
+              </div>
+              <form
+                onsubmit="
+                  event.preventDefault();
+                  showToast('পাসওয়ার্ড পরিবর্তন হয়েছে!');
+                "
+                class="space-y-4"
+              >
+                <div>
+                  <label
+                    class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                    >বর্তমান পাসওয়ার্ড</label
+                  >
+                  <div class="relative">
+                    <span
+                      class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                      >🔒</span
+                    >
+                    <input
+                      type="password"
+                      placeholder="বর্তমান পাসওয়ার্ড দিন"
+                      class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200 placeholder:text-text-light placeholder:text-xs"
+                    />
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                      >নতুন পাসওয়ার্ড</label
+                    >
+                    <div class="relative">
+                      <span
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                        >🔑</span
+                      >
+                      <input
+                        type="password"
+                        placeholder="নতুন পাসওয়ার্ড"
+                        class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200 placeholder:text-text-light placeholder:text-xs"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label
+                      class="block text-[13px] font-semibold text-gray-700 mb-1.5 font-noto"
+                      >পাসওয়ার্ড নিশ্চিত করুন</label
+                    >
+                    <div class="relative">
+                      <span
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-text-light pointer-events-none"
+                        >🔑</span
+                      >
+                      <input
+                        type="password"
+                        placeholder="পুনরায় পাসওয়ার্ড"
+                        class="form-input w-full pl-10 pr-4 py-3 border-2 border-border rounded-xl text-sm font-hind bg-cream text-gray-900 outline-none transition-all duration-200 placeholder:text-text-light placeholder:text-xs"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full sm:w-auto bg-accent text-white font-noto font-bold text-sm px-8 py-3 rounded-xl border-none cursor-pointer hover:bg-earth-dark transition-all hover:-translate-y-0.5 hover:shadow-lg"
+                >
+                  🔐 পাসওয়ার্ড পরিবর্তন করুন
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right: Preferences -->
+          <div class="space-y-5">
+            <!-- Notification settings -->
+            <div class="bg-white rounded-2xl border-2 border-border p-5">
+              <div
+                class="flex items-center gap-2 mb-4 pb-3 border-b border-border"
+              >
+                <span class="text-xl">🔔</span>
+                <h3 class="font-noto font-bold text-gray-900 text-[15px]">
+                  নোটিফিকেশন
+                </h3>
+              </div>
+              <div class="space-y-3.5">
+                <label class="flex items-center justify-between cursor-pointer">
+                  <div>
+                    <div class="text-sm font-semibold text-gray-800 font-noto">
+                      অর্ডার আপডেট
+                    </div>
+                    <div class="text-[11px] text-text-light">
+                      অর্ডারের স্ট্যাটাস পরিবর্তনে
+                    </div>
+                  </div>
+                  <div
+                    class="relative"
+                    onclick="this.querySelector('input').click()"
+                  >
+                    <input type="checkbox" checked class="peer sr-only" />
+                    <div
+                      class="w-10 h-5 bg-border rounded-full peer-checked:bg-green-mid transition-colors cursor-pointer"
+                    ></div>
+                    <div
+                      class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5 cursor-pointer"
+                    ></div>
+                  </div>
+                </label>
+                <label class="flex items-center justify-between cursor-pointer">
+                  <div>
+                    <div class="text-sm font-semibold text-gray-800 font-noto">
+                      অফার ও ছাড়
+                    </div>
+                    <div class="text-[11px] text-text-light">
+                      বিশেষ ছাড় ও অফারে
+                    </div>
+                  </div>
+                  <div
+                    class="relative"
+                    onclick="this.querySelector('input').click()"
+                  >
+                    <input type="checkbox" checked class="peer sr-only" />
+                    <div
+                      class="w-10 h-5 bg-border rounded-full peer-checked:bg-green-mid transition-colors cursor-pointer"
+                    ></div>
+                    <div
+                      class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5 cursor-pointer"
+                    ></div>
+                  </div>
+                </label>
+                <label class="flex items-center justify-between cursor-pointer">
+                  <div>
+                    <div class="text-sm font-semibold text-gray-800 font-noto">
+                      নতুন পণ্য
+                    </div>
+                    <div class="text-[11px] text-text-light">
+                      নতুন পণ্য যোগ হলে
+                    </div>
+                  </div>
+                  <div
+                    class="relative"
+                    onclick="this.querySelector('input').click()"
+                  >
+                    <input type="checkbox" class="peer sr-only" />
+                    <div
+                      class="w-10 h-5 bg-border rounded-full peer-checked:bg-green-mid transition-colors cursor-pointer"
+                    ></div>
+                    <div
+                      class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5 cursor-pointer"
+                    ></div>
+                  </div>
+                </label>
+                <label class="flex items-center justify-between cursor-pointer">
+                  <div>
+                    <div class="text-sm font-semibold text-gray-800 font-noto">
+                      ইমেইল নিউজলেটার
+                    </div>
+                    <div class="text-[11px] text-text-light">
+                      সাপ্তাহিক আপডেট
+                    </div>
+                  </div>
+                  <div
+                    class="relative"
+                    onclick="this.querySelector('input').click()"
+                  >
+                    <input type="checkbox" checked class="peer sr-only" />
+                    <div
+                      class="w-10 h-5 bg-border rounded-full peer-checked:bg-green-mid transition-colors cursor-pointer"
+                    ></div>
+                    <div
+                      class="absolute left-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform peer-checked:translate-x-5 cursor-pointer"
+                    ></div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Loyalty badge card -->
+            <div class="bg-green-deep rounded-2xl p-5 relative overflow-hidden">
+              <div
+                class="absolute inset-0 opacity-[.07]"
+                style="
+                  background: radial-gradient(
+                    ellipse at 80% 20%,
+                    rgba(255, 255, 255, 0.5) 0%,
+                    transparent 60%
+                  );
+                "
+              ></div>
+              <div class="relative z-10">
+                <div class="text-2xl mb-3">🏆</div>
+                <h4 class="font-noto font-bold text-white text-sm mb-1">
+                  প্রিমিয়াম সদস্য
+                </h4>
+                <p class="text-[11px] text-white/55 mb-4 leading-relaxed">
+                  আপনি এ পর্যন্ত ৳৩৪,৫৬০ খরচ করেছেন। আরও ৳৫,৪৪০ খরচ করলে গোল্ড
+                  সদস্য হবেন।
+                </p>
+                <div class="h-2 bg-white/20 rounded-full mb-1.5">
+                  <div
+                    class="h-full bg-earth-light rounded-full"
+                    style="width: 86%"
+                  ></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-white/45">
+                  <span>৳৩৪,৫৬০</span>
+                  <span>৳৪০,০০০ (গোল্ড)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Danger zone -->
+            <div class="bg-white rounded-2xl border-2 border-red-100 p-5">
+              <div
+                class="flex items-center gap-2 mb-4 pb-3 border-b border-red-100"
+              >
+                <span class="text-xl">⚠️</span>
+                <h3 class="font-noto font-bold text-danger text-[15px]">
+                  বিপজ্জনক এলাকা
+                </h3>
+              </div>
+              <div class="space-y-3">
+                <button
+                  onclick="showToast('অ্যাকাউন্ট লগআউট হচ্ছে...')"
+                  class="w-full text-left flex items-center gap-3 p-3 rounded-xl bg-cream text-text-mid text-sm font-semibold border-2 border-border cursor-pointer hover:border-red-200 hover:bg-red-50 hover:text-danger transition-all"
+                >
+                  <span>🚪</span> সমস্ত ডিভাইস থেকে লগআউট
+                </button>
+                <button
+                  onclick="
+                    showToast(
+                      'অ্যাকাউন্ট ডিলিট করার অনুরোধ পাঠানো হচ্ছে...',
+                      true,
+                    )
+                  "
+                  class="w-full text-left flex items-center gap-3 p-3 rounded-xl bg-red-50 text-danger text-sm font-semibold border-2 border-red-100 cursor-pointer hover:bg-danger hover:text-white transition-all"
+                >
+                  <span>🗑️</span> অ্যাকাউন্ট মুছে ফেলুন
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TOAST ── -->
+    <div
+      id="toast"
+      class="fixed bottom-6 left-1/2 z-[999] bg-green-deep text-white px-5 py-3.5 rounded-xl text-sm font-noto font-semibold shadow-2xl flex items-center gap-2 whitespace-nowrap opacity-0 pointer-events-none transition-all duration-300"
+      style="transform: translateX(-50%) translateY(16px)"
+    ></div>
+
+    <script>
+      // ── TAB SWITCH ──────────────────────────────────────
+      function switchTab(name) {
+        // update buttons
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((b) => b.classList.remove("active"));
+        const btn = document.querySelector(`.tab-btn[onclick*="${name}"]`);
+        if (btn) btn.classList.add("active");
+        // update panels
+        document
+          .querySelectorAll(".tab-panel")
+          .forEach((p) => p.classList.remove("active"));
+        const panel = document.getElementById("tab-" + name);
+        if (panel) {
+          panel.classList.add("active");
+          panel.style.animation = "none";
+          panel.offsetHeight;
+          panel.style.animation = "";
+        }
+        // scroll tabs into view on mobile
+        if (btn)
+          btn.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "center",
+          });
+      }
+
+      // ── ORDER FILTER ────────────────────────────────────
+      function filterOrders(status, btn) {
+        document.querySelectorAll(".order-filter").forEach((b) => {
+          b.className =
+            "order-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-border bg-cream text-text-mid cursor-pointer transition-all hover:border-green-mid hover:text-green-deep";
+        });
+        btn.className =
+          "order-filter active-filter px-3.5 py-1.5 rounded-xl text-xs font-semibold border-2 border-green-deep bg-green-deep text-white cursor-pointer transition-all";
+
+        document.querySelectorAll(".order-card").forEach((card) => {
+          const cardStatus = card.getAttribute("data-status");
+          card.style.display =
+            status === "all" || cardStatus === status ? "block" : "none";
+        });
+      }
+
+      // ── TOAST ───────────────────────────────────────────
+      let _toastTimer;
+      function showToast(msg, isError = false) {
+        clearTimeout(_toastTimer);
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.style.opacity = "1";
+        t.style.transform = "translateX(-50%) translateY(0)";
+        t.style.pointerEvents = "auto";
+        t.className = `fixed bottom-6 left-1/2 z-[999] text-white px-5 py-3.5 rounded-xl
+    text-sm font-noto font-semibold shadow-2xl flex items-center gap-2
+    whitespace-nowrap transition-all duration-300
+    ${isError ? "bg-danger" : "bg-green-deep"}`;
+        _toastTimer = setTimeout(() => {
+          t.style.opacity = "0";
+          t.style.transform = "translateX(-50%) translateY(16px)";
+          t.style.pointerEvents = "none";
+        }, 3000);
+      }
+    </script>
+  </body>
+</html>

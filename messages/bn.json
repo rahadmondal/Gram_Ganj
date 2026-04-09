@@ -24,6 +24,7 @@
   },
 
   "Navbar": {
+    "login": "লগইন করুন",
     "brandName": "গ্রামীণ বাজার",
     "brandSubName": "Grameen Bazar",
     "navProducts": "পণ্য সমূহ",
