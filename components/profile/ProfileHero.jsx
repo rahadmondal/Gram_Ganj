@@ -1,8 +1,25 @@
-import React from "react";
-import { FaCheck, FaEdit, FaPhone, FaUser, FaCamera, FaCalendarAlt, FaCrown } from "react-icons/fa";
-import { FaLocationDot } from "react-icons/fa6";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import Image from "next/image";
+import { FaCalendarAlt, FaCamera, FaCheck, FaCrown, FaEdit, FaPhone, FaUser } from "react-icons/fa";
 
-const ProfileHero = () => {
+const ProfileHero = async () => {
+
+    const session = await auth.api.getSession({
+        headers: await headers()
+    });
+
+    const user = session?.user;
+    const getJoinDate = (dateString) => {
+        if (!dateString) return "অজানা";
+        try {
+            const options = { year: 'numeric', month: 'long' };
+            return new Date(dateString).toLocaleDateString('bn-BD', options);
+        } catch (error) {
+            return "অজানা";
+        }
+    };
+
     return (
         <div className="bg-green-deep relative overflow-hidden">
             {/* Radial glow */}
@@ -40,47 +57,58 @@ const ProfileHero = () => {
 
                     {/* Avatar */}
                     <div className="relative shrink-0">
-                        <div className="avatar-ring w-24 h-24 rounded-3xl bg-green-mid/30 border-[3px] border-earth-light/60 flex items-center justify-center text-3xl shadow-2xl text-white">
-                            <FaUser />
+                        <div className="avatar-ring w-24 h-24 rounded-3xl bg-green-mid/30 border-[3px] border-earth-light/60 flex items-center justify-center text-3xl shadow-2xl text-white overflow-hidden">
+                            {user?.image ? (
+                                <Image
+                                    src={user.image}
+                                    alt={user.name || "Profile Avatar"}
+                                    width={96}
+                                    height={96}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <FaUser />
+                            )}
                         </div>
 
                         <button
-                            className="absolute -bottom-1.5 -right-1.5 w-8 h-8 rounded-xl bg-earth-light border-2 border-white flex items-center justify-center text-sm cursor-pointer hover:bg-accent transition-colors shadow-lg"
+                            className="absolute -bottom-1.5 -right-1.5 w-8 h-8 rounded-xl bg-earth-light border-2 border-white flex items-center justify-center text-sm cursor-pointer hover:bg-accent transition-colors shadow-lg text-white"
                         >
                             <FaCamera />
                         </button>
 
-                        <span className="online-dot absolute top-1.5 right-1.5 w-3.5 h-3.5 rounded-full border-2 border-green-deep"></span>
+                        <span className="online-dot absolute top-1.5 right-1.5 w-3.5 h-3.5 rounded-full border-2 border-green-deep bg-green-500"></span>
                     </div>
 
                     {/* User info */}
                     <div className="flex-1">
                         <div className="flex items-center gap-2.5 mb-1 flex-wrap">
-                            <h1 className="font-noto text-2xl font-bold text-white">
-                                নাহিদা সুলতানা
+                            <h1 className="font-noto text-2xl font-bold text-white uppercase tracking-wide">
+                                {user?.name || "সম্মানিত গ্রাহক"}
                             </h1>
 
-                            <span className="flex items-center gap-1 bg-earth-light/25 text-earth-light border border-earth-light/30 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
-                                <FaCheck /> যাচাইকৃত
-                            </span>
+                            {user?.emailVerified && (
+                                <span className="flex items-center gap-1 bg-earth-light/25 text-earth-light border border-earth-light/30 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
+                                    <FaCheck /> যাচাইকৃত
+                                </span>
+                            )}
                         </div>
 
                         <p className="flex items-center gap-2 text-white/55 text-sm mb-3">
-                            nahida@example.com · <FaPhone /> 01712-345678
+                            {user?.email} {user?.phone && <>· <FaPhone /> {user.phone}</>}
                         </p>
 
                         <div className="flex flex-wrap gap-2">
                             <span className="flex items-center gap-1 bg-white/10 border border-white/15 text-white/75 text-xs font-medium px-3 py-1 rounded-full">
-                                <FaLocationDot /> ঢাকা, বাংলাদেশ
+                                <FaCalendarAlt /> সদস্য: {getJoinDate(user?.createdAt)}
                             </span>
 
-                            <span className="flex items-center gap-1 bg-white/10 border border-white/15 text-white/75 text-xs font-medium px-3 py-1 rounded-full">
-                                <FaCalendarAlt /> সদস্য: জানুয়ারি ২০২৪
-                            </span>
 
-                            <span className="flex items-center gap-1 bg-white/10 border border-white/15 text-white/75 text-xs font-medium px-3 py-1 rounded-full">
-                                <FaCrown /> প্রিমিয়াম সদস্য
-                            </span>
+                            {user?.role === 'premium' && (
+                                <span className="flex items-center gap-1 bg-white/10 border border-white/15 text-white/75 text-xs font-medium px-3 py-1 rounded-full">
+                                    <FaCrown /> প্রিমিয়াম সদস্য
+                                </span>
+                            )}
                         </div>
                     </div>
 
@@ -92,7 +120,7 @@ const ProfileHero = () => {
                     </button>
                 </div>
 
-                {/* Stats strip */}
+                {/* Stats strip - ডেমো ডেটা */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-white/10">
                     {[
                         { value: "২৪", label: "মোট অর্ডার" },
