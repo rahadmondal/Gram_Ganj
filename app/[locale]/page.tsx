@@ -1,7 +1,7 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import HeroSection from "@/components/homepage/HeroSection";
-import FeatureBar from "@/components/homepage/FeatureBar";
 import CategoriesSection from "@/components/homepage/CategoriesSection";
+import FeatureBar from "@/components/homepage/FeatureBar";
+import HeroSection from "@/components/homepage/HeroSection";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 interface HomeProps {
   params: Promise<{ locale: string }>;
 }

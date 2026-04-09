@@ -57,5 +57,75 @@
     "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
     "backToHome": "Back to Home",
     "shopNow": "Shop Now"
+  },
+  "ResetPasswordPage": {
+    "form": {
+      "title": "Set New Password",
+      "description": "Create a strong new password to ensure the security of your account."
+    },
+    "fields": {
+      "newPassword": {
+        "label": "New Password",
+        "placeholder": "Enter new password (at least 8 characters)"
+      },
+      "confirmPassword": {
+        "label": "Confirm Password",
+        "placeholder": "Re-enter the password"
+      }
+    },
+    "validation": {
+      "requiredNewPassword": "Password is required",
+      "minLength": "Password must be at least 8 characters long",
+      "requiredConfirmPassword": "Please confirm your password",
+      "passwordMismatch": "Passwords do not match"
+    },
+    "buttons": {
+      "save": "Save Password",
+      "updating": "Updating..."
+    },
+    "links": {
+      "backToLogin": "Back to Login"
+    },
+    "success": {
+      "title": "Password Updated Successfully!",
+      "description": "Your password has been changed successfully. Redirecting you to the login page..."
+    },
+    "errors": {
+      "updateFailed": "Failed to update password. The link might be expired.",
+      "serverError": "A server error occurred. Please try again."
+    }
+  },
+  "ForgotPasswordPage": {
+    "success": {
+      "title": "Email Sent!",
+      "description": "We have sent a password reset link to your email. Please check your inbox (and spam folder).",
+      "backToLogin": "Back to Login"
+    },
+    "form": {
+      "title": "Forgot Password?",
+      "description": "Enter your account email address. We will send you a link to reset your password."
+    },
+    "fields": {
+      "email": {
+        "label": "Your Email",
+        "placeholder": "e.g: example@gmail.com"
+      }
+    },
+    "validation": {
+      "requiredEmail": "Email is required",
+      "invalidEmail": "Enter a valid email address"
+    },
+    "buttons": {
+      "sending": "Sending link...",
+      "sendLink": "Send Reset Link"
+    },
+    "divider": "or",
+    "links": {
+      "backToLogin": "Back to Login"
+    },
+    "errors": {
+      "sendFailed": "Failed to send email. Please check if you entered the correct email.",
+      "serverError": "A server error occurred. Please try again."
+    }
   }
 }

@@ -1,6 +1,5 @@
 import PrimaryButton from "@/components/common/PrimaryButton";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import React from "react";
 
 const DashboardPage = async ({ params }) => {
   const { locale } = await params;
