@@ -82,6 +82,7 @@ const CategoriesSection = async () => {
               {/* প্রোডাক্ট কাউন্ট (লোকেল অনুযায়ী) */}
               <div className="text-xs text-green-mid font-semibold relative z-1">
                 {t.productCount(category.productCount)}
+                
               </div>
             </Link>
           ))}
