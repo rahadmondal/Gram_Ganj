@@ -38,6 +38,5 @@ export default async function middleware(request) {
 }
 
 export const config = {
-  // এই প্যাটার্নটি api এবং স্ট্যাটিক ফাইল বাদ দিয়ে বাকি সব রুট কভার করবে
   matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
 };
