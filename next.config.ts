@@ -4,7 +4,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ["placehold.co"],
+    domains: ["placehold.co", "res.cloudinary.com"],
   },
 };
 const withNextIntl = createNextIntlPlugin();
