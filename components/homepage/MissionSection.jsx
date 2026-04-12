@@ -38,7 +38,7 @@ const MissionSection = () => {
 
                 {/* Header Section */}
                 <div className="text-center mb-12">
-                    <div className="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-[5px] rounded-[20px] mb-3.5">
+                    <div className="inline-block bg-green-pale text-green-deep text-[11px] font-bold tracking-[2px] uppercase px-3.5 py-1.25 rounded-[20px] mb-3.5">
                         <span className="mr-1">💚</span> আমাদের লক্ষ্য
                     </div>
                     <h2 className="font-noto text-[clamp(22px,4vw,36px)] text-text-dark mb-2.5 leading-[1.3]">
