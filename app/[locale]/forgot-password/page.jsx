@@ -14,7 +14,7 @@ import { CiMail } from "react-icons/ci";
 
 export default function ForgotPasswordPage() {
     const t = useTranslations("ForgotPasswordPage");
-    const locale = useLocale(); // বর্তমান ভাষা বের করার জন্য
+    const locale = useLocale();
 
     const [isLoading, setIsLoading] = useState(false);
     const [apiError, setApiError] = useState("");

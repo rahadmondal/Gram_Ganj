@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>গ্রামীণ বাজার — পণ্য সমূহ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,500&family=Noto+Serif+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-green-deep:  #2d5a27;
+    --color-green-mid:   #4a7c3f;
+    --color-green-light: #7daf6a;
+    --color-green-pale:  #e8f0e5;
+    --color-earth-dark:  #5c3d1e;
+    --color-earth-mid:   #8b5e3c;
+    --color-earth-light: #c4956a;
+    --color-earth-pale:  #f5ede3;
+    --color-cream:       #fdf8f2;
+    --color-text-dark:   #1a1a1a;
+    --color-text-mid:    #4a4a4a;
+    --color-text-light:  #999;
+    --color-border:      #e2d8cc;
+    --color-accent:      #d4691e;
+    --color-star:        #f4a61a;
+    --color-red:         #c0392b;
+
+    --font-hind:     'Hind Siliguri', sans-serif;
+    --font-noto:     'Noto Serif Bengali', serif;
+    --font-playfair: 'Playfair Display', serif;
+  }
+
+  body { font-family: var(--font-hind); background-color: var(--color-cream); color: var(--color-text-dark); -webkit-font-smoothing: antialiased; }
+  .font-noto     { font-family: var(--font-noto); }
+  .font-playfair { font-family: var(--font-playfair); }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-cream); }
+  ::-webkit-scrollbar-thumb { background: var(--color-earth-light); border-radius: 3px; }
+
+  /* interactive states that Tailwind can't easily inline */
+  .cat-pill:hover   { background-color: var(--color-green-pale); color: var(--color-green-deep); }
+  .cat-pill.active  { background-color: var(--color-green-deep); color: white; border-color: var(--color-green-deep); }
+  .cat-pill.active .pill-count { background-color: rgba(255,255,255,.2); }
+
+  .filter-chip:hover  { border-color: var(--color-green-mid); color: var(--color-green-mid); }
+  .filter-chip.active { background-color: var(--color-green-deep); color: white; border-color: var(--color-green-deep); }
+
+  .view-btn.active { background-color: var(--color-green-deep); color: white; border-color: var(--color-green-deep); }
+
+  .p-card:hover { border-color: var(--color-green-light); transform: translateY(-4px); box-shadow: 0 14px 40px rgba(93,61,30,.16); }
+  .p-card:hover .p-card-img { background-color: #dcebd8; }
+  .p-card[data-cat="food"]:hover .p-card-img  { background-color: #ffefc8; }
+  .p-card[data-cat="clay"]:hover .p-card-img  { background-color: #fde0c5; }
+
+  .p-wish:hover  { transform: scale(1.1); }
+  .p-wish.liked  { color: var(--color-red); }
+
+  .btn-add-card:hover { background-color: var(--color-green-mid); transform: scale(1.03); }
+  .g-thumb:hover, .g-thumb.active { border-color: var(--color-green-mid); background-color: var(--color-green-pale); transform: scale(1.04); }
+
+  .v-chip:hover  { border-color: var(--color-green-mid); color: var(--color-green-mid); }
+  .v-chip.active { background-color: var(--color-green-deep); color: white; border-color: var(--color-green-deep); }
+  .v-chip.out    { opacity: .4; cursor: not-allowed; text-decoration: line-through; }
+
+  .c-swatch:hover { transform: scale(1.15); }
+  .c-swatch.active { border-color: var(--color-green-deep); box-shadow: 0 0 0 2px white, 0 0 0 4px var(--color-green-deep); }
+
+  .qty-btn:hover { background-color: var(--color-green-pale); }
+  .btn-buynow:hover   { background-color: #b8521a; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(212,105,30,.35); }
+  .btn-addcart:hover  { background-color: var(--color-green-mid); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,90,39,.3); }
+  .btn-wish-detail:hover { border-color: var(--color-red); transform: scale(1.05); }
+
+  .tab-btn.active { color: var(--color-green-deep); border-bottom-color: var(--color-green-deep); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .cart-panel { transform: translateX(100%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+  .cart-panel.open { transform: translateX(0); }
+  .cart-overlay.open { display: block; }
+
+  .filter-drawer { display: none; position: fixed; inset: 0; z-index: 250; }
+  .filter-drawer.open { display: block; }
+
+  .toast { transform: translateX(-50%) translateY(100px); }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  .products-grid.list-view { grid-template-columns: 1fr; }
+  .products-grid.list-view .p-card { display: grid; grid-template-columns: 200px 1fr; }
+  .products-grid.list-view .p-card-img { height: 100%; min-height: 160px; border-radius: 0; }
+  .products-grid.list-view .p-card .p-card-body { padding: 20px 22px; }
+  .products-grid.list-view .p-card .p-name { font-size: 18px; }
+
+  .page-btn:hover  { border-color: var(--color-green-mid); color: var(--color-green-mid); }
+  .page-btn.active { background-color: var(--color-green-deep); color: white; border-color: var(--color-green-deep); }
+  .page-btn.dots   { border: none; cursor: default; background: transparent; }
+
+  .ci-qty-btn:hover { background-color: var(--color-green-pale); }
+  .ci-remove:hover  { color: var(--color-red); }
+  .btn-cart-main:hover  { background-color: var(--color-green-mid); }
+  .btn-checkout:hover { background-color: var(--color-green-mid); }
+  .btn-clear:hover { border-color: var(--color-red); color: var(--color-red); }
+  .rating-row:hover { background-color: var(--color-green-pale); }
+  .nav-link:hover, .nav-link.active { background-color: var(--color-green-pale); color: var(--color-green-deep); }
+  .search-input:focus { border-color: var(--color-green-mid); background-color: white; }
+  .sort-select:focus { border-color: var(--color-green-mid); }
+  .price-input:focus  { border-color: var(--color-green-mid); }
+  .active-filter-tag:hover { background-color: #d0e8cc; }
+</style>
+</head>
+<body class="text-base leading-relaxed">
+
+<!-- ══ NAV ══ -->
+<nav class="bg-white border-b-2 border-green-pale sticky top-0 z-[200]" style="box-shadow:0 2px 16px rgba(93,61,30,.10)">
+  <div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-16 gap-4">
+    <a href="#" class="flex items-center gap-2.5 no-underline flex-shrink-0" onclick="showPage('products')">
+      <div class="logo-icon w-10 h-10 bg-green-deep rounded-full flex items-center justify-center text-xl">🌿</div>
+      <div class="flex flex-col leading-tight">
+        <span class="font-noto text-[17px] font-bold text-green-deep">গ্রামীণ বাজার</span>
+        <span class="text-[10px] text-earth-mid font-semibold tracking-[1.5px] uppercase">Grameen Bazar</span>
+      </div>
+    </a>
+    <div class="flex-1 max-w-[420px] relative max-[640px]:hidden">
+      <input type="text" placeholder="পণ্য খুঁজুন... (Search products)" id="searchInput" oninput="filterProducts()"
+        class="search-input w-full py-2.5 pr-11 pl-4 border-2 border-border rounded-xl text-sm font-hind bg-cream text-text-dark transition-colors duration-200 outline-none placeholder:text-text-light">
+      <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-base pointer-events-none">🔍</span>
+    </div>
+    <ul class="flex gap-1 list-none max-[640px]:hidden">
+      <li><a href="#" onclick="showPage('products')" class="nav-link active no-underline text-text-mid text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200">পণ্য সমূহ</a></li>
+      <li><a href="#" class="nav-link no-underline text-text-mid text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200">কাস্টম অর্ডার</a></li>
+      <li><a href="#" class="nav-link no-underline text-text-mid text-sm font-medium px-3 py-2 rounded-lg transition-all duration-200">আমাদের গল্প</a></li>
+    </ul>
+    <div class="flex gap-2 items-center flex-shrink-0">
+      <button class="btn-cart-main bg-green-deep text-white border-none px-4 py-2.5 rounded-xl text-sm font-hind font-semibold cursor-pointer flex items-center gap-1.5 transition-colors duration-200 relative min-h-[42px]" onclick="openCart()">
+        🛒 কার্ট
+        <span class="bg-accent text-white text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center absolute -top-1.5 -right-1.5 font-bold" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     PRODUCTS PAGE
+══════════════════════════════════ -->
+<div class="page active" id="page-products">
+
+  <!-- Breadcrumb -->
+  <div class="bg-white border-b border-border px-6 py-3">
+    <div class="max-w-[1200px] mx-auto flex items-center gap-2 text-[13px] text-text-light">
+      <a href="#" class="text-green-mid no-underline font-semibold hover:underline">🏠 হোম</a>
+      <span class="text-[11px]">›</span>
+      <strong>সকল পণ্য</strong>
+    </div>
+  </div>
+
+  <!-- Hero Banner -->
+  <div class="bg-green-deep px-6 py-10 relative overflow-hidden">
+    <div class="absolute inset-0" style="background:radial-gradient(ellipse at 70% 50%, rgba(196,149,106,.15) 0%, transparent 60%)"></div>
+    <div class="max-w-[1200px] mx-auto flex justify-between items-center gap-6 relative z-[1]">
+      <div>
+        <div class="inline-block bg-white/[0.12] text-[#c8e6b8] text-[11px] font-bold tracking-[2px] uppercase px-3 py-1 rounded-[20px] mb-2.5">🌾 ১০০% হাতে তৈরি · Authentic Handmade</div>
+        <h1 class="font-noto text-[clamp(22px,3vw,34px)] font-bold text-white leading-[1.25] mb-1.5">আমাদের সকল পণ্য দেখুন</h1>
+        <p class="text-sm text-white/60">গ্রামের কারিগরদের হাতে তৈরি সেরা পণ্যগুলো আপনার জন্য</p>
+      </div>
+      <div class="flex gap-8 flex-shrink-0 max-[1000px]:hidden">
+        <div class="text-center"><span class="font-playfair text-[28px] font-bold text-earth-light block">৬৭৩</span><span class="text-[11px] text-white/50 uppercase tracking-[.5px]">মোট পণ্য</span></div>
+        <div class="text-center"><span class="font-playfair text-[28px] font-bold text-earth-light block">৫০০+</span><span class="text-[11px] text-white/50 uppercase tracking-[.5px]">কারিগর</span></div>
+        <div class="text-center"><span class="font-playfair text-[28px] font-bold text-earth-light block">৪.৮★</span><span class="text-[11px] text-white/50 uppercase tracking-[.5px]">গড় রেটিং</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="max-w-[1200px] mx-auto px-6 py-7 grid gap-7 items-start" style="grid-template-columns:260px 1fr" id="shopLayout">
+
+    <!-- SIDEBAR -->
+    <aside class="bg-white rounded-[18px] border-2 border-border overflow-hidden sticky top-[88px] max-[1000px]:hidden" id="mainSidebar">
+
+      <div class="p-5 border-b border-border">
+        <div class="font-noto text-sm font-bold text-text-dark mb-3.5 flex items-center gap-2"><span class="text-base">🗂️</span> ক্যাটাগরি</div>
+        <div class="flex flex-col gap-1" id="catPills">
+          <div class="cat-pill active flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('all',this)">
+            <span><span class="pill-icon text-[18px] mr-2">🏪</span> সকল পণ্য</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">৬৭৩</span>
+          </div>
+          <div class="cat-pill flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('clothing',this)">
+            <span><span class="pill-icon text-[18px] mr-2">👘</span> কাপড় ও পোশাক</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">১৪৫</span>
+          </div>
+          <div class="cat-pill flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('clay',this)">
+            <span><span class="pill-icon text-[18px] mr-2">🏺</span> মাটির পণ্য</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">৮৯</span>
+          </div>
+          <div class="cat-pill flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('food',this)">
+            <span><span class="pill-icon text-[18px] mr-2">🍿</span> গ্রামীণ খাবার</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">২১২</span>
+          </div>
+          <div class="cat-pill flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('quilt',this)">
+            <span><span class="pill-icon text-[18px] mr-2">🧶</span> নকশিকাঁথা</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">৫৬</span>
+          </div>
+          <div class="cat-pill flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('craft',this)">
+            <span><span class="pill-icon text-[18px] mr-2">🪵</span> কাঠের কারুকাজ</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">৭৩</span>
+          </div>
+          <div class="cat-pill flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('jute',this)">
+            <span><span class="pill-icon text-[18px] mr-2">🌾</span> পাটজাত পণ্য</span>
+            <span class="pill-count text-[11px] font-bold bg-black/[.08] px-[7px] py-[2px] rounded-xl">৯৮</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 border-b border-border">
+        <div class="font-noto text-sm font-bold text-text-dark mb-3.5 flex items-center gap-2"><span class="text-base">💰</span> মূল্য পরিসীমা (৳)</div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <input type="number" placeholder="সর্বনিম্ন" id="priceMin" onchange="filterProducts()"
+            class="price-input w-full py-2.5 px-2.5 border-2 border-border rounded-lg text-[13px] font-hind text-center text-text-dark bg-cream outline-none">
+          <input type="number" placeholder="সর্বোচ্চ" id="priceMax" onchange="filterProducts()"
+            class="price-input w-full py-2.5 px-2.5 border-2 border-border rounded-lg text-[13px] font-hind text-center text-text-dark bg-cream outline-none">
+        </div>
+        <div class="flex flex-wrap gap-1.5 mt-3">
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="setPriceRange(0,500,this)">৳০–৫০০</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="setPriceRange(500,1500,this)">৳৫০০–১৫০০</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="setPriceRange(1500,5000,this)">৳১৫০০+</div>
+        </div>
+      </div>
+
+      <div class="p-5 border-b border-border">
+        <div class="font-noto text-sm font-bold text-text-dark mb-3.5 flex items-center gap-2"><span class="text-base">⭐</span> রেটিং</div>
+        <div class="flex flex-col gap-1.5">
+          <label class="rating-row flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-lg transition-colors duration-[150ms]"><input type="radio" name="rating" value="5" class="accent-green-deep w-3.5 h-3.5 cursor-pointer"> <span class="text-star text-[13px]">★★★★★</span> <span class="text-xs text-text-light">(৪৮৬)</span></label>
+          <label class="rating-row flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-lg transition-colors duration-[150ms]"><input type="radio" name="rating" value="4" class="accent-green-deep w-3.5 h-3.5 cursor-pointer"> <span class="text-star text-[13px]">★★★★☆</span> <span class="text-xs text-text-light">(২৩৪)</span></label>
+          <label class="rating-row flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-lg transition-colors duration-[150ms]"><input type="radio" name="rating" value="3" class="accent-green-deep w-3.5 h-3.5 cursor-pointer"> <span class="text-star text-[13px]">★★★☆☆</span> <span class="text-xs text-text-light">(৯৮)</span></label>
+          <label class="rating-row flex items-center gap-2 cursor-pointer px-2 py-1.5 rounded-lg transition-colors duration-[150ms]"><input type="radio" name="rating" value="0" checked class="accent-green-deep w-3.5 h-3.5 cursor-pointer"> <span class="text-text-mid text-[13px]">সকল রেটিং</span></label>
+        </div>
+      </div>
+
+      <div class="p-5 border-b border-border">
+        <div class="font-noto text-sm font-bold text-text-dark mb-3.5 flex items-center gap-2"><span class="text-base">🏷️</span> ট্যাগ</div>
+        <div class="flex flex-wrap gap-1.5">
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="this.classList.toggle('active')">হাতে বোনা</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="this.classList.toggle('active')">অর্গানিক</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="this.classList.toggle('active')">কাস্টম সাইজ</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="this.classList.toggle('active')">উপহার</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="this.classList.toggle('active')">সেল</div>
+          <div class="filter-chip px-3 py-1.5 rounded-lg border-[1.5px] border-border text-xs font-semibold cursor-pointer transition-all duration-200 text-text-mid bg-cream" onclick="this.classList.toggle('active')">নতুন</div>
+        </div>
+      </div>
+
+      <div class="p-5">
+        <button class="btn-clear w-full py-2.5 rounded-xl border-2 border-border bg-cream text-[13px] font-hind font-semibold cursor-pointer text-text-mid transition-all duration-200" onclick="clearFilters()">🔄 ফিল্টার মুছুন</button>
+      </div>
+    </aside>
+
+    <!-- MAIN PRODUCTS AREA -->
+    <div>
+      <!-- Toolbar -->
+      <div class="bg-white rounded-xl border-2 border-border px-[18px] py-3.5 flex items-center justify-between gap-3 mb-5 flex-wrap">
+        <div class="flex items-center gap-2.5">
+          <button class="hidden items-center gap-1.5 px-4 py-2.5 border-2 border-border rounded-xl bg-white text-sm font-hind font-semibold cursor-pointer text-text-mid max-[1000px]:flex" onclick="openFilterDrawer()">⚙️ ফিল্টার</button>
+          <span class="text-sm text-text-mid font-medium" id="resultCount"><strong class="text-green-deep font-bold">২৪টি</strong> পণ্য পাওয়া গেছে</span>
+          <div class="flex gap-1.5 flex-wrap" id="activeFilters"></div>
+        </div>
+        <div class="flex items-center gap-2.5">
+          <select class="sort-select py-2 px-3 border-2 border-border rounded-lg text-[13px] font-hind text-text-dark cursor-pointer bg-cream outline-none" onchange="sortProducts(this.value)">
+            <option value="popular">জনপ্রিয়তা অনুযায়ী</option>
+            <option value="newest">নতুন পণ্য আগে</option>
+            <option value="price-low">মূল্য: কম থেকে বেশি</option>
+            <option value="price-high">মূল্য: বেশি থেকে কম</option>
+            <option value="rating">সেরা রেটিং</option>
+          </select>
+          <div class="flex gap-1">
+            <button class="view-btn active w-[34px] h-[34px] rounded-lg border-2 border-border bg-cream flex items-center justify-center cursor-pointer text-sm transition-all duration-200 text-text-mid" id="gridViewBtn" onclick="setView('grid')">⊞</button>
+            <button class="view-btn w-[34px] h-[34px] rounded-lg border-2 border-border bg-cream flex items-center justify-center cursor-pointer text-sm transition-all duration-200 text-text-mid" id="listViewBtn" onclick="setView('list')">☰</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid grid gap-[18px]" style="grid-template-columns:repeat(3,1fr)" id="productsGrid"></div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center items-center gap-1.5 mt-8 flex-wrap">
+        <button class="page-btn active w-10 h-10 rounded-xl border-2 border-border bg-white text-sm font-semibold cursor-pointer flex items-center justify-center text-text-mid transition-all duration-200">১</button>
+        <button class="page-btn w-10 h-10 rounded-xl border-2 border-border bg-white text-sm font-semibold cursor-pointer flex items-center justify-center text-text-mid transition-all duration-200">২</button>
+        <button class="page-btn w-10 h-10 rounded-xl border-2 border-border bg-white text-sm font-semibold cursor-pointer flex items-center justify-center text-text-mid transition-all duration-200">৩</button>
+        <button class="page-btn dots w-10 h-10 flex items-center justify-center">...</button>
+        <button class="page-btn w-10 h-10 rounded-xl border-2 border-border bg-white text-sm font-semibold cursor-pointer flex items-center justify-center text-text-mid transition-all duration-200">১২</button>
+        <button class="page-btn w-10 h-10 rounded-xl border-2 border-border bg-white text-sm font-semibold cursor-pointer flex items-center justify-center text-text-mid transition-all duration-200">›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     PRODUCT DETAIL PAGE
+══════════════════════════════════ -->
+<div class="page bg-cream" id="page-detail">
+
+  <!-- Breadcrumb -->
+  <div class="bg-white border-b border-border px-6 py-3">
+    <div class="max-w-[1200px] mx-auto flex items-center gap-2 text-[13px] text-text-light">
+      <a href="#" onclick="showPage('products')" class="text-green-mid no-underline font-semibold hover:underline">🏠 হোম</a>
+      <span class="text-[11px]">›</span>
+      <a href="#" onclick="showPage('products')" class="text-green-mid no-underline font-semibold hover:underline">সকল পণ্য</a>
+      <span class="text-[11px]">›</span>
+      <strong id="detail-breadcrumb-name">পণ্যের নাম</strong>
+    </div>
+  </div>
+
+  <!-- Detail Layout -->
+  <div class="max-w-[1200px] mx-auto px-6 py-8 grid gap-12 items-start max-[1000px]:grid-cols-1 max-[1000px]:gap-7" style="grid-template-columns:1fr 1fr">
+
+    <!-- Gallery -->
+    <div>
+      <div class="bg-earth-pale rounded-[20px] h-[420px] flex items-center justify-center text-[130px] mb-3.5 border-2 border-border relative overflow-hidden transition-all duration-300" id="galleryMain">
+        <span id="mainEmoji">🥻</span>
+        <span class="absolute bottom-3.5 right-3.5 bg-black/45 text-white text-[11px] px-2.5 py-[5px] rounded-md font-semibold">🔍 বড় করতে ট্যাপ করুন</span>
+      </div>
+      <div class="grid gap-2.5" style="grid-template-columns:repeat(4,1fr)" id="galleryThumbs"></div>
+    </div>
+
+    <!-- Info -->
+    <div>
+      <div class="text-xs text-text-light flex items-center gap-1.5 mb-3.5">
+        <a href="#" onclick="showPage('products')" class="text-green-mid no-underline font-semibold">← পণ্য তালিকায় ফিরুন</a>
+      </div>
+      <div class="flex gap-1.5 mb-3 flex-wrap" id="detailBadgeRow"></div>
+      <h1 class="font-noto text-[clamp(22px,3vw,30px)] font-bold text-text-dark leading-[1.3] mb-1" id="detailTitle">জামদানি শাড়ি</h1>
+      <p class="text-sm text-text-light italic mb-3.5" id="detailTitleEn">Jamdani Saree</p>
+      <div class="flex items-center gap-3 mb-4 flex-wrap">
+        <span class="text-[18px] text-star" id="detailStars">★★★★★</span>
+        <span class="font-bold text-[15px]" id="detailRating">৪.৯</span>
+        <span class="text-border">|</span>
+        <span class="text-[13px] text-text-light" id="detailReviews">৪৮ টি মতামত</span>
+        <span class="text-border">|</span>
+        <span class="text-[13px] text-green-mid font-semibold" id="detailSold">✅ ২৩৪টি বিক্রি হয়েছে</span>
+      </div>
+
+      <!-- Price box -->
+      <div class="bg-green-pale rounded-xl px-5 py-[18px] mb-[18px] border border-[#c5ddbf]">
+        <div>
+          <span class="font-playfair text-[36px] font-bold text-green-deep" id="detailPrice">৳৩,৫০০</span>
+          <span class="text-[18px] text-text-light line-through ml-2.5" id="detailOld">৳৪,২০০</span>
+          <span class="inline-block bg-red text-white text-xs font-bold px-2.5 py-[3px] rounded-md ml-2.5" id="detailSave">১৭% ছাড়</span>
+        </div>
+        <p class="text-[13px] text-text-mid mt-1">প্রতি পিস • VAT অন্তর্ভুক্ত</p>
+      </div>
+
+      <!-- Color -->
+      <div class="mb-[18px]">
+        <div class="text-[13px] font-bold text-text-dark mb-2 flex items-center gap-1.5"><span class="font-noto">রং বেছে নিন:</span> <span class="font-normal text-green-mid font-hind" id="selectedColor">লাল</span></div>
+        <div class="flex gap-2 flex-wrap">
+          <div class="c-swatch w-8 h-8 rounded-full cursor-pointer border-[3px] border-transparent transition-all duration-200 active" style="background:#c0392b" onclick="selectColor('লাল',this)"></div>
+          <div class="c-swatch w-8 h-8 rounded-full cursor-pointer border-[3px] border-transparent transition-all duration-200" style="background:#2980b9" onclick="selectColor('নীল',this)"></div>
+          <div class="c-swatch w-8 h-8 rounded-full cursor-pointer border-[3px] border-transparent transition-all duration-200" style="background:#27ae60" onclick="selectColor('সবুজ',this)"></div>
+          <div class="c-swatch w-8 h-8 rounded-full cursor-pointer border-[3px] border-transparent transition-all duration-200" style="background:#f39c12" onclick="selectColor('হলুদ',this)"></div>
+          <div class="c-swatch w-8 h-8 rounded-full cursor-pointer border-[3px] border-transparent transition-all duration-200" style="background:#8e44ad" onclick="selectColor('বেগুনি',this)"></div>
+          <div class="c-swatch w-8 h-8 rounded-full cursor-pointer border-[3px] border-transparent transition-all duration-200" style="background:#2c3e50" onclick="selectColor('কালো',this)"></div>
+        </div>
+      </div>
+
+      <!-- Size -->
+      <div class="mb-[18px]">
+        <div class="text-[13px] font-bold text-text-dark mb-2 flex items-center gap-1.5"><span class="font-noto">সাইজ:</span> <span class="font-normal text-green-mid font-hind" id="selectedSize">M</span></div>
+        <div class="flex gap-2 flex-wrap">
+          <div class="v-chip px-4 py-2 rounded-xl border-2 border-border bg-white text-[13px] font-semibold cursor-pointer transition-all duration-200 text-text-mid" onclick="selectSize('S',this)">S</div>
+          <div class="v-chip active px-4 py-2 rounded-xl border-2 border-border bg-white text-[13px] font-semibold cursor-pointer transition-all duration-200 text-text-mid" onclick="selectSize('M',this)">M</div>
+          <div class="v-chip px-4 py-2 rounded-xl border-2 border-border bg-white text-[13px] font-semibold cursor-pointer transition-all duration-200 text-text-mid" onclick="selectSize('L',this)">L</div>
+          <div class="v-chip px-4 py-2 rounded-xl border-2 border-border bg-white text-[13px] font-semibold cursor-pointer transition-all duration-200 text-text-mid" onclick="selectSize('XL',this)">XL</div>
+          <div class="v-chip out px-4 py-2 rounded-xl border-2 border-border bg-white text-[13px] font-semibold cursor-pointer transition-all duration-200 text-text-mid" onclick="selectSize('XXL',this)">XXL</div>
+        </div>
+      </div>
+
+      <!-- Qty -->
+      <div class="flex items-center gap-4 mb-5">
+        <span class="text-[13px] font-bold">পরিমাণ:</span>
+        <div class="flex items-center border-2 border-border rounded-xl overflow-hidden bg-white">
+          <button class="qty-btn w-[42px] h-[42px] border-none bg-cream text-[18px] font-bold cursor-pointer transition-colors duration-[150ms] text-text-dark" onclick="changeQty(-1)">−</button>
+          <input class="w-12 text-center text-base font-bold border-none bg-white text-text-dark font-hind p-0 outline-none" type="number" id="qtyInput" value="1" min="1" max="10">
+          <button class="qty-btn w-[42px] h-[42px] border-none bg-cream text-[18px] font-bold cursor-pointer transition-colors duration-[150ms] text-text-dark" onclick="changeQty(1)">+</button>
+        </div>
+        <span class="text-[13px] text-green-mid font-semibold">✅ স্টকে আছে (১৮টি)</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex gap-3 mb-5 flex-wrap max-[640px]:flex-col">
+        <button class="btn-buynow flex-1 min-w-[160px] bg-accent text-white border-none px-5 py-4 rounded-xl text-base font-noto font-bold cursor-pointer transition-all duration-[250ms] min-h-[54px]" onclick="showToast('📞 অর্ডারের জন্য ০১৭XX-XXXXXX এ কল করুন')">⚡ এখনই কিনুন</button>
+        <button class="btn-addcart flex-1 min-w-[160px] bg-green-deep text-white border-none px-5 py-4 rounded-xl text-base font-noto font-bold cursor-pointer transition-all duration-[250ms] min-h-[54px]" onclick="detailAddToCart()">🛒 কার্টে যোগ করুন</button>
+        <button class="btn-wish-detail w-[54px] h-[54px] rounded-xl border-2 border-border bg-white text-[22px] cursor-pointer transition-all duration-200 flex items-center justify-center" id="detailWishBtn" onclick="toggleWish()">🤍</button>
+      </div>
+
+      <!-- COD strip -->
+      <div class="flex gap-2.5 flex-wrap mb-[18px]">
+        <div class="flex items-center gap-[7px] bg-earth-pale border border-[#dfc9b0] rounded-lg px-3 py-2 text-xs font-semibold text-earth-dark">🚚 ক্যাশ অন ডেলিভারি</div>
+        <div class="flex items-center gap-[7px] bg-earth-pale border border-[#dfc9b0] rounded-lg px-3 py-2 text-xs font-semibold text-earth-dark">🔄 ৭ দিনে রিটার্ন</div>
+        <div class="flex items-center gap-[7px] bg-earth-pale border border-[#dfc9b0] rounded-lg px-3 py-2 text-xs font-semibold text-earth-dark">✅ মূল পণ্য গ্যারান্টি</div>
+        <div class="flex items-center gap-[7px] bg-earth-pale border border-[#dfc9b0] rounded-lg px-3 py-2 text-xs font-semibold text-earth-dark">📦 ফ্রি প্যাকেজিং</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs Section -->
+  <div class="max-w-[1200px] mx-auto px-6 pb-12">
+    <div class="flex border-b-2 border-border mb-7 overflow-x-auto">
+      <button class="tab-btn active px-[22px] py-3.5 border-none bg-transparent text-[15px] font-noto font-semibold text-text-light cursor-pointer border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px]" onclick="switchTab('desc',this)">📋 বিস্তারিত</button>
+      <button class="tab-btn px-[22px] py-3.5 border-none bg-transparent text-[15px] font-noto font-semibold text-text-light cursor-pointer border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px]" onclick="switchTab('maker',this)">👤 কারিগর পরিচিতি</button>
+      <button class="tab-btn px-[22px] py-3.5 border-none bg-transparent text-[15px] font-noto font-semibold text-text-light cursor-pointer border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px]" onclick="switchTab('reviews',this)">⭐ রিভিউ (৪৮)</button>
+      <button class="tab-btn px-[22px] py-3.5 border-none bg-transparent text-[15px] font-noto font-semibold text-text-light cursor-pointer border-b-[3px] border-transparent transition-all duration-200 whitespace-nowrap -mb-[2px]" onclick="switchTab('shipping',this)">🚚 ডেলিভারি তথ্য</button>
+    </div>
+
+    <!-- Description Tab -->
+    <div class="tab-content active" id="tab-desc">
+      <div class="grid grid-cols-2 gap-8 max-[1000px]:grid-cols-1">
+        <p class="font-noto text-[15px] text-text-mid leading-[1.85]" id="detailDesc">এই জামদানি শাড়িটি বাংলাদেশের ঐতিহ্যবাহী হস্তশিল্পের একটি অনন্য নিদর্শন।</p>
+        <table class="w-full border-collapse" id="specTable">
+          <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark w-[45%] font-noto align-top">উপকরণ</td><td class="py-2.5 px-1 text-[13px] text-text-mid">১০০% তুলা সুতা</td></tr>
+          <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark font-noto align-top">দৈর্ঘ্য</td><td class="py-2.5 px-1 text-[13px] text-text-mid">৬ গজ</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Maker Tab -->
+    <div class="tab-content" id="tab-maker">
+      <div class="grid gap-8 bg-white rounded-[18px] p-7 border-2 border-border max-[1000px]:grid-cols-1" style="grid-template-columns:200px 1fr">
+        <div class="bg-green-pale rounded-2xl h-[180px] flex items-center justify-center text-[80px]">👩</div>
+        <div>
+          <div class="font-noto text-[22px] font-bold mb-1" id="makerName">রহিমা বেগম</div>
+          <div class="text-[13px] text-earth-mid mb-3.5 font-semibold" id="makerLoc">📍 টাঙ্গাইল, ঢাকা বিভাগ</div>
+          <p class="font-noto text-sm text-text-mid leading-[1.8] mb-4" id="makerBio">রহিমা বেগম গত ২২ বছর ধরে জামদানি বুনছেন।</p>
+          <div class="flex gap-6">
+            <div class="text-center"><span class="font-playfair text-[22px] font-bold text-green-deep block">২২</span><span class="text-[11px] text-text-light uppercase tracking-[.5px]">বছরের অভিজ্ঞতা</span></div>
+            <div class="text-center"><span class="font-playfair text-[22px] font-bold text-green-deep block">৩৪০+</span><span class="text-[11px] text-text-light uppercase tracking-[.5px]">পণ্য বিক্রি</span></div>
+            <div class="text-center"><span class="font-playfair text-[22px] font-bold text-green-deep block">৪.৯★</span><span class="text-[11px] text-text-light uppercase tracking-[.5px]">রেটিং</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews Tab -->
+    <div class="tab-content" id="tab-reviews">
+      <div class="grid items-start mb-7 gap-8 max-[1000px]:grid-cols-1" style="grid-template-columns:auto 1fr">
+        <div class="bg-white rounded-2xl px-7 py-6 border-2 border-border text-center min-w-[160px]">
+          <div class="font-playfair text-[56px] font-bold text-green-deep leading-none">৪.৯</div>
+          <div class="text-star text-[22px] my-1.5">★★★★★</div>
+          <div class="text-[13px] text-text-light">৪৮ টি রিভিউ</div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5 mb-2 text-[13px] text-text-mid"><span class="min-w-[24px] font-semibold">৫★</span><div class="flex-1 h-2 bg-border rounded-full overflow-hidden"><div class="h-full bg-star rounded-full" style="width:82%"></div></div><span class="min-w-[36px] text-right text-xs">৮২%</span></div>
+          <div class="flex items-center gap-2.5 mb-2 text-[13px] text-text-mid"><span class="min-w-[24px] font-semibold">৪★</span><div class="flex-1 h-2 bg-border rounded-full overflow-hidden"><div class="h-full bg-star rounded-full" style="width:12%"></div></div><span class="min-w-[36px] text-right text-xs">১২%</span></div>
+          <div class="flex items-center gap-2.5 mb-2 text-[13px] text-text-mid"><span class="min-w-[24px] font-semibold">৩★</span><div class="flex-1 h-2 bg-border rounded-full overflow-hidden"><div class="h-full bg-star rounded-full" style="width:4%"></div></div><span class="min-w-[36px] text-right text-xs">৪%</span></div>
+          <div class="flex items-center gap-2.5 mb-2 text-[13px] text-text-mid"><span class="min-w-[24px] font-semibold">২★</span><div class="flex-1 h-2 bg-border rounded-full overflow-hidden"><div class="h-full bg-star rounded-full" style="width:2%"></div></div><span class="min-w-[36px] text-right text-xs">২%</span></div>
+          <div class="flex items-center gap-2.5 text-[13px] text-text-mid"><span class="min-w-[24px] font-semibold">১★</span><div class="flex-1 h-2 bg-border rounded-full overflow-hidden"><div class="h-full bg-star rounded-full" style="width:0%"></div></div><span class="min-w-[36px] text-right text-xs">০%</span></div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 max-[1000px]:grid-cols-1">
+        <div class="bg-white rounded-xl p-5 border-2 border-border">
+          <div class="flex justify-between items-start mb-2.5"><div class="flex items-center gap-2.5"><div class="w-[38px] h-[38px] rounded-full bg-green-pale flex items-center justify-center text-[18px]">👩</div><div><div class="font-bold text-[13px] font-noto">নাহিদা সুলতানা</div><div class="text-[11px] text-text-light">১৫ মার্চ ২০২৫</div></div></div><div class="text-star text-[13px]">★★★★★</div></div>
+          <p class="font-noto text-[13px] text-text-mid leading-[1.7]">অসাধারণ মানের শাড়ি! রঙ এবং নকশা একদম ছবির মতো।</p>
+          <div class="text-[11px] text-green-mid font-semibold mt-2">✅ যাচাইকৃত ক্রেতা</div>
+        </div>
+        <div class="bg-white rounded-xl p-5 border-2 border-border">
+          <div class="flex justify-between items-start mb-2.5"><div class="flex items-center gap-2.5"><div class="w-[38px] h-[38px] rounded-full bg-green-pale flex items-center justify-center text-[18px]">👨</div><div><div class="font-bold text-[13px] font-noto">রহিম সাহেব</div><div class="text-[11px] text-text-light">৮ এপ্রিল ২০২৫</div></div></div><div class="text-star text-[13px]">★★★★★</div></div>
+          <p class="font-noto text-[13px] text-text-mid leading-[1.7]">স্ত্রীর জন্য কিনেছিলাম, তিনি খুবই খুশি।</p>
+          <div class="text-[11px] text-green-mid font-semibold mt-2">✅ যাচাইকৃত ক্রেতা</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shipping Tab -->
+    <div class="tab-content" id="tab-shipping">
+      <div class="grid grid-cols-2 gap-6 max-[1000px]:grid-cols-1">
+        <div class="bg-white rounded-2xl p-6 border-2 border-border">
+          <h3 class="font-noto text-[18px] font-bold mb-4">🚚 ডেলিভারি পদ্ধতি</h3>
+          <table class="w-full border-collapse">
+            <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark w-[45%] font-noto">ঢাকার ভেতরে</td><td class="py-2.5 px-1 text-[13px] text-text-mid">৬০ টাকা · ২-৩ দিন</td></tr>
+            <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark font-noto">ঢাকার বাইরে</td><td class="py-2.5 px-1 text-[13px] text-text-mid">১২০ টাকা · ৩-৫ দিন</td></tr>
+            <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark font-noto">এক্সপ্রেস</td><td class="py-2.5 px-1 text-[13px] text-text-mid">১৮০ টাকা · ১-২ দিন</td></tr>
+            <tr><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark font-noto">ফ্রি ডেলিভারি</td><td class="py-2.5 px-1 text-[13px] text-text-mid">৩০০০ টাকার উপরে</td></tr>
+          </table>
+        </div>
+        <div class="bg-white rounded-2xl p-6 border-2 border-border">
+          <h3 class="font-noto text-[18px] font-bold mb-4">🔄 রিটার্ন পলিসি</h3>
+          <table class="w-full border-collapse">
+            <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark w-[45%] font-noto">রিটার্ন সময়সীমা</td><td class="py-2.5 px-1 text-[13px] text-text-mid">৭ দিনের মধ্যে</td></tr>
+            <tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark font-noto">রিফান্ড পদ্ধতি</td><td class="py-2.5 px-1 text-[13px] text-text-mid">বিকাশ / নগদ</td></tr>
+            <tr><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark font-noto">ত্রুটিপূর্ণ পণ্য</td><td class="py-2.5 px-1 text-[13px] text-text-mid">সম্পূর্ণ বিনামূল্যে</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <div class="max-w-[1200px] mx-auto px-6 pb-[60px]">
+    <h2 class="font-noto text-2xl font-bold mb-5 pb-3 border-b-2 border-border flex items-center gap-2.5">🌿 একই ধরনের আরও পণ্য</h2>
+    <div class="grid gap-4" style="grid-template-columns:repeat(4,1fr)" id="relatedGrid"></div>
+  </div>
+</div>
+
+<!-- ══ MOBILE FILTER DRAWER ══ -->
+<div class="filter-drawer" id="filterDrawer">
+  <div class="absolute inset-0 bg-black/40" onclick="closeFilterDrawer()"></div>
+  <div class="absolute left-0 top-0 bottom-0 w-[280px] bg-white overflow-y-auto p-5">
+    <div class="flex justify-between items-center mb-5">
+      <strong class="text-base font-noto">ফিল্টার</strong>
+      <button onclick="closeFilterDrawer()" class="border-none bg-cream rounded-full w-8 h-8 cursor-pointer text-base">✕</button>
+    </div>
+    <div class="font-noto text-[13px] font-bold mb-2 text-text-dark">🗂️ ক্যাটাগরি</div>
+    <div class="flex flex-col gap-1">
+      <div class="cat-pill active flex items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('all',this)"><span>🏪 সকল পণ্য</span></div>
+      <div class="cat-pill flex items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('clothing',this)"><span>👘 কাপড়</span></div>
+      <div class="cat-pill flex items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('clay',this)"><span>🏺 মাটির পণ্য</span></div>
+      <div class="cat-pill flex items-center px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 border border-transparent text-sm text-text-mid font-medium" onclick="filterCat('food',this)"><span>🍿 খাবার</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CART PANEL ══ -->
+<div class="cart-overlay hidden fixed inset-0 bg-black/45 z-[299]" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-panel fixed right-0 top-0 bottom-0 w-[360px] bg-white z-[300] flex flex-col max-[640px]:w-full" style="box-shadow:-8px 0 48px rgba(0,0,0,.18)" id="cartPanel">
+  <div class="p-5 border-b-2 border-border flex justify-between items-center">
+    <div class="font-noto text-xl font-bold flex items-center gap-2">🛒 আপনার কার্ট</div>
+    <button class="w-[34px] h-[34px] rounded-full border-none bg-cream cursor-pointer text-[18px] transition-colors duration-200 hover:bg-border" onclick="closeCart()">✕</button>
+  </div>
+  <div class="flex-1 overflow-y-auto p-4" id="cartItemsEl">
+    <div class="text-center py-[60px] px-5 text-text-light"><div class="text-[52px] mb-3">🛒</div><div class="font-noto text-base">কার্ট এখন খালি</div></div>
+  </div>
+  <div class="p-5 border-t-2 border-border bg-cream">
+    <div class="flex justify-between text-sm text-text-mid mb-1.5"><span>সাবটোটাল</span><span id="cartSubtotal">৳০</span></div>
+    <div class="flex justify-between text-sm text-text-mid mb-1.5"><span>ডেলিভারি</span><span>৳৬০</span></div>
+    <div class="flex justify-between text-[18px] font-bold mb-4 mt-2 pt-2 border-t border-border">
+      <span class="font-noto" id="cartCountEl">০টি পণ্য</span>
+      <span class="font-playfair text-[22px] text-green-deep" id="cartTotalEl">৳৬০</span>
+    </div>
+    <button class="btn-checkout w-full bg-green-deep text-white border-none py-4 rounded-xl text-base font-noto font-bold cursor-pointer transition-colors duration-200 min-h-[54px]">✅ অর্ডার করুন</button>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast fixed bottom-6 left-1/2 bg-green-deep text-white px-6 py-3.5 rounded-xl text-sm font-noto font-semibold z-[500] transition-transform duration-300 flex items-center gap-2 whitespace-nowrap" style="box-shadow:0 8px 32px rgba(0,0,0,.25)" id="toast"></div>
+
+<script>
+const PRODUCTS = [
+  { id:1, name:'জামদানি শাড়ি', nameEn:'Jamdani Saree', emoji:'🥻', cat:'clothing', price:3500, oldPrice:4200, badge:'hot', badgeLabel:'হট', village:'টাঙ্গাইল', rating:4.9, reviews:48, sold:234, desc:'টাঙ্গাইলের ঐতিহ্যবাহী জামদানি শাড়ি। প্রতিটি শাড়ি দক্ষ তাঁতিরা হাতে বুনে তৈরি করেন।', maker:'রহিমা বেগম', makerLoc:'টাঙ্গাইল, ঢাকা বিভাগ', specs:[['উপকরণ','১০০% তুলা সুতা'],['দৈর্ঘ্য','৬ গজ'],['প্রস্থ','৪৫ ইঞ্চি'],['ওজন','৪৫০ গ্রাম']] },
+  { id:2, name:'মাটির হাঁড়ি সেট', nameEn:'Clay Pot Set (3 pcs)', emoji:'🏺', cat:'clay', price:450, oldPrice:600, badge:'new', badgeLabel:'নতুন', village:'রাজশাহী', rating:4.7, reviews:23, sold:98, desc:'রাজশাহীর দক্ষ কুমারদের হাতে তৈরি মাটির হাঁড়ি সেট।', maker:'আলী হোসেন', makerLoc:'রাজশাহী শহর', specs:[['উপাদান','খাঁটি মাটি'],['সেটে আছে','৩টি হাঁড়ি']] },
+  { id:3, name:'আলুর চিপস (হস্তনির্মিত)', nameEn:'Handmade Potato Chips 200g', emoji:'🍟', cat:'food', price:180, oldPrice:250, badge:'hot', badgeLabel:'হট', village:'ময়মনসিংহ', rating:5.0, reviews:102, sold:520, desc:'ময়মনসিংহের গ্রামে তৈরি হাতের চিপস।', maker:'সুফিয়া খাতুন', makerLoc:'ময়মনসিংহ সদর', specs:[['ওজন','২০০ গ্রাম'],['উপাদান','আলু, লবণ, তেল']] },
+  { id:4, name:'নকশিকাঁথা (কিং সাইজ)', nameEn:'King-size Nakshikantha Quilt', emoji:'🧶', cat:'quilt', price:2200, oldPrice:3000, badge:'best', badgeLabel:'সেরা', village:'জামালপুর', rating:4.9, reviews:67, sold:189, desc:'জামালপুরের ঐতিহ্যবাহী নকশিকাঁথা।', maker:'ফাতেমা বেগম', makerLoc:'জামালপুর', specs:[['সাইজ','৯০×১০৮ ইঞ্চি'],['উপাদান','পুরনো শাড়ি ও সুতা']] },
+  { id:5, name:'পাটের ব্যাগ', nameEn:'Eco-Friendly Jute Bag', emoji:'👜', cat:'jute', price:350, oldPrice:500, badge:'new', badgeLabel:'নতুন', village:'খুলনা', rating:4.6, reviews:35, sold:145, desc:'পরিবেশবান্ধব পাটের ব্যাগ।', maker:'সামিয়া বেগম', makerLoc:'খুলনা', specs:[['উপাদান','খাঁটি পাট'],['বহন ক্ষমতা','৫ কেজি']] },
+  { id:6, name:'কাঠের পাত্র সেট', nameEn:'Handcrafted Wooden Kitchen Set', emoji:'🥄', cat:'craft', price:950, oldPrice:1200, badge:'new', badgeLabel:'নতুন', village:'সিলেট', rating:4.8, reviews:19, sold:67, desc:'সিলেটের দক্ষ কারিগরদের হাতে তৈরি কাঠের সরঞ্জাম।', maker:'রফিক উদ্দিন', makerLoc:'সিলেট সদর', specs:[['উপাদান','সেগুন কাঠ'],['সেটে আছে','৫টি পাত্র']] },
+  { id:7, name:'হাতে বোনা শাল', nameEn:'Handwoven Winter Shawl', emoji:'🧣', cat:'clothing', price:780, oldPrice:1000, badge:'', badgeLabel:'', village:'রংপুর', rating:4.9, reviews:54, sold:210, desc:'রংপুরের হাতে বোনা শীতের শাল।', maker:'করিমা বেগম', makerLoc:'রংপুর সদর', specs:[['উপাদান','উল ও তুলা মিশ্রণ'],['মাপ','৬০×১৮০ সেমি']] },
+  { id:8, name:'গ্রামীণ মধু (খাঁটি)', nameEn:'Pure Sundarban Forest Honey', emoji:'🍯', cat:'food', price:650, oldPrice:800, badge:'hot', badgeLabel:'হট', village:'সুন্দরবন', rating:5.0, reviews:88, sold:340, desc:'সুন্দরবনের মৌয়ালদের সংগ্রহ করা খাঁটি মধু।', maker:'করিম মৌয়াল', makerLoc:'বাগেরহাট', specs:[['পরিমাণ','৫০০ গ্রাম'],['উপাদান','১০০% খাঁটি মধু']] },
+  { id:9, name:'মাটির ফুলদানি', nameEn:'Decorative Clay Vase', emoji:'🏛️', cat:'clay', price:320, oldPrice:450, badge:'', badgeLabel:'', village:'রাজশাহী', rating:4.5, reviews:15, sold:45, desc:'রাজশাহীর কুমারদের হাতে তৈরি সুন্দর ফুলদানি।', maker:'রামেশ্বর পাল', makerLoc:'রাজশাহী', specs:[['উচ্চতা','৩০ সেমি'],['উপাদান','খাঁটি মাটি']] },
+  { id:10, name:'হাতে বানানো মুড়ি', nameEn:'Traditional Puffed Rice 500g', emoji:'🍚', cat:'food', price:120, oldPrice:160, badge:'', badgeLabel:'', village:'কুমিল্লা', rating:4.7, reviews:42, sold:290, desc:'কুমিল্লার গ্রামে তৈরি ঐতিহ্যবাহী হাতের মুড়ি।', maker:'জলিলা বেগম', makerLoc:'কুমিল্লা', specs:[['ওজন','৫০০ গ্রাম'],['মেয়াদ','২ মাস']] },
+  { id:11, name:'পাটের শপিং ব্যাগ সেট', nameEn:'Jute Bag Set (3 pcs)', emoji:'🛍️', cat:'jute', price:520, oldPrice:700, badge:'sale', badgeLabel:'সেল', village:'যশোর', rating:4.6, reviews:28, sold:130, desc:'যশোরে তৈরি টেকসই পাটের ব্যাগ সেট।', maker:'হামিদা বেগম', makerLoc:'যশোর', specs:[['সেটে আছে','৩টি ব্যাগ'],['উপাদান','পাট']] },
+  { id:12, name:'কাঠের মিনিয়েচার বোট', nameEn:'Handcrafted Wooden Boat', emoji:'🚤', cat:'craft', price:680, oldPrice:900, badge:'', badgeLabel:'', village:'বরিশাল', rating:4.8, reviews:22, sold:78, desc:'বরিশালের কারিগরদের তৈরি কাঠের মডেল নৌকা।', maker:'কালাম মিস্ত্রি', makerLoc:'বরিশাল সদর', specs:[['দৈর্ঘ্য','৩০ সেমি'],['উপাদান','বাঁশ ও কাঠ']] },
+];
+
+let currentCat = 'all', currentView = 'grid', cart = [], currentProduct = null, wishlist = new Set();
+
+function renderProducts(list) {
+  const grid = document.getElementById('productsGrid');
+  document.getElementById('resultCount').innerHTML = `<strong class="text-green-deep font-bold">${list.length}টি</strong> পণ্য পাওয়া গেছে`;
+  if(!list.length) { grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--color-text-light)"><div style="font-size:64px;margin-bottom:16px">🔍</div><div style="font-family:var(--font-noto);font-size:18px;margin-bottom:8px">কোনো পণ্য পাওয়া যায়নি</div><div style="font-size:13px">অন্য ফিল্টার চেষ্টা করুন</div></div>`; return; }
+  const catBg = { food:'#fff8e6', clay:'#fef0e3', craft:'#f0f4ff' };
+  const badgeColor = { hot:'background:var(--color-accent)', new:'background:var(--color-green-mid)', sale:'background:var(--color-red)', best:'background:#7c3aed' };
+  grid.innerHTML = list.map(p => {
+    const disc = Math.round((1-p.price/p.oldPrice)*100);
+    const stars = '★'.repeat(Math.round(p.rating))+'☆'.repeat(5-Math.round(p.rating));
+    const liked = wishlist.has(p.id);
+    const bg = catBg[p.cat] || 'var(--color-green-pale)';
+    return `<div class="p-card bg-white rounded-[18px] border-2 border-border overflow-hidden cursor-pointer transition-all duration-[250ms] relative" data-cat="${p.cat}" onclick="openDetail(${p.id})">
+      <div class="p-card-img h-[210px] flex items-center justify-center text-[72px] relative overflow-hidden transition-colors duration-200" style="background:${bg}">
+        <span style="user-select:none">${p.emoji}</span>
+        ${p.badge ? `<span class="p-badge absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-md text-white" style="${badgeColor[p.badge]}">${p.badgeLabel}</span>` : ''}
+        <button class="p-wish absolute top-2.5 right-2.5 bg-white border-none w-[34px] h-[34px] rounded-full text-base cursor-pointer flex items-center justify-center transition-all duration-200 ${liked?'liked':''}" style="box-shadow:0 2px 8px rgba(93,61,30,.10)" onclick="event.stopPropagation();toggleWishCard(${p.id},this)">${liked?'❤️':'🤍'}</button>
+        <span class="p-discount-ribbon absolute bottom-3 right-0 bg-red text-white text-[11px] font-bold px-2.5 py-1 rounded-l-md">${disc}% ছাড়</span>
+      </div>
+      <div class="p-card-body p-4">
+        <div class="p-village text-[11px] text-earth-mid font-semibold flex items-center gap-1 mb-1.5 uppercase tracking-[.5px]">📍 ${p.village}</div>
+        <div class="p-name font-noto text-[15px] font-bold text-text-dark mb-0.5 leading-[1.3]">${p.name}</div>
+        <div class="p-name-en text-xs text-text-light italic mb-2">${p.nameEn}</div>
+        <div class="p-stars flex items-center gap-1 mb-2.5 text-xs text-star">${stars} <span class="count text-text-light">(${p.reviews})</span></div>
+        <div class="p-footer flex items-center justify-between pt-2.5 border-t border-border">
+          <div><span class="p-price font-playfair text-xl font-bold text-green-deep">৳${p.price.toLocaleString()}</span><span class="p-old text-xs text-text-light line-through ml-1.5 font-hind">৳${p.oldPrice}</span></div>
+          <button class="btn-add-card bg-green-deep text-white border-none px-3.5 py-2 rounded-[9px] text-[13px] font-hind font-bold cursor-pointer transition-all duration-200 min-h-[36px]" onclick="event.stopPropagation();addToCart(${p.id})">+ কার্ট</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function getFilteredProducts() {
+  let list = [...PRODUCTS];
+  const search = document.getElementById('searchInput')?.value.toLowerCase()||'';
+  const minP = parseInt(document.getElementById('priceMin')?.value)||0;
+  const maxP = parseInt(document.getElementById('priceMax')?.value)||999999;
+  if(currentCat!=='all') list = list.filter(p=>p.cat===currentCat);
+  if(search) list = list.filter(p=>p.name.includes(search)||p.nameEn.toLowerCase().includes(search)||p.village.includes(search));
+  list = list.filter(p=>p.price>=minP&&p.price<=maxP);
+  return list;
+}
+function filterProducts() { renderProducts(getFilteredProducts()); }
+function filterCat(cat, el) {
+  currentCat=cat;
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.cat-pill').forEach(p=>{if(p.getAttribute('onclick')&&p.getAttribute('onclick').includes(`'${cat}'`))p.classList.add('active');});
+  filterProducts(); closeFilterDrawer();
+}
+function sortProducts(val) {
+  let list=getFilteredProducts();
+  if(val==='price-low') list.sort((a,b)=>a.price-b.price);
+  if(val==='price-high') list.sort((a,b)=>b.price-a.price);
+  if(val==='rating') list.sort((a,b)=>b.rating-a.rating);
+  if(val==='newest') list.sort((a,b)=>b.id-a.id);
+  renderProducts(list);
+}
+function setPriceRange(min,max,el){
+  document.getElementById('priceMin').value=min||'';
+  document.getElementById('priceMax').value=max>=999?'':max;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active'); filterProducts();
+}
+function clearFilters(){
+  currentCat='all';
+  if(document.getElementById('searchInput')) document.getElementById('searchInput').value='';
+  document.getElementById('priceMin').value=''; document.getElementById('priceMax').value='';
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  document.querySelector('.cat-pill').classList.add('active');
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  renderProducts(PRODUCTS);
+}
+function setView(v){
+  currentView=v;
+  const grid=document.getElementById('productsGrid');
+  if(v==='list') grid.classList.add('list-view'); else grid.classList.remove('list-view');
+  document.getElementById('gridViewBtn').classList.toggle('active',v==='grid');
+  document.getElementById('listViewBtn').classList.toggle('active',v==='list');
+}
+function openDetail(id){
+  const p=PRODUCTS.find(x=>x.id===id); if(!p) return; currentProduct=p;
+  document.getElementById('detail-breadcrumb-name').textContent=p.name;
+  document.getElementById('detailTitle').textContent=p.name;
+  document.getElementById('detailTitleEn').textContent=p.nameEn;
+  document.getElementById('detailPrice').textContent='৳'+p.price.toLocaleString();
+  document.getElementById('detailOld').textContent='৳'+p.oldPrice.toLocaleString();
+  const disc=Math.round((1-p.price/p.oldPrice)*100);
+  document.getElementById('detailSave').textContent=disc+'% ছাড়';
+  document.getElementById('detailRating').textContent=p.rating;
+  document.getElementById('detailReviews').textContent=p.reviews+' টি মতামত';
+  document.getElementById('detailSold').textContent='✅ '+p.sold+'টি বিক্রি হয়েছে';
+  document.getElementById('mainEmoji').textContent=p.emoji;
+  const catBg={food:'#fff8e6',clay:'#fef0e3'};
+  document.getElementById('galleryMain').style.background=catBg[p.cat]||'var(--color-earth-pale)';
+  const thumbEmojis=[p.emoji,'📦','🎁','🛍️'];
+  document.getElementById('galleryThumbs').innerHTML=thumbEmojis.map((e,i)=>`<div class="g-thumb bg-cream rounded-xl h-20 flex items-center justify-center text-[32px] cursor-pointer border-2 border-border transition-all duration-200 ${i===0?'active':''}" onclick="selectThumb(this,'${e}')">${e}</div>`).join('');
+  const badges=[];
+  if(p.badge==='hot') badges.push('<span class="text-[11px] font-bold px-3 py-1 rounded-[20px] text-white" style="background:var(--color-accent)">🔥 হট</span>');
+  if(p.badge==='new') badges.push('<span class="text-[11px] font-bold px-3 py-1 rounded-[20px] text-white" style="background:var(--color-green-mid)">✨ নতুন</span>');
+  if(p.badge==='best') badges.push('<span class="text-[11px] font-bold px-3 py-1 rounded-[20px] text-white" style="background:var(--color-green-deep)">⭐ সেরা পিক</span>');
+  badges.push('<span class="text-[11px] font-bold px-3 py-1 rounded-[20px] text-white" style="background:var(--color-green-deep)">✅ যাচাইকৃত</span>');
+  document.getElementById('detailBadgeRow').innerHTML=badges.join('');
+  const s=Math.round(p.rating);
+  document.getElementById('detailStars').textContent='★'.repeat(s)+'☆'.repeat(5-s);
+  document.getElementById('detailDesc').innerHTML=p.desc+'<br><br>গ্রামীণ বাজারের মাধ্যমে এই পণ্য কিনলে আপনি সরাসরি এই কারিগরকে সাপোর্ট করছেন।';
+  document.getElementById('specTable').innerHTML=p.specs.map(([k,v])=>`<tr class="border-b border-border"><td class="py-2.5 px-1 text-[13px] font-bold text-text-dark w-[45%] font-noto align-top">${k}</td><td class="py-2.5 px-1 text-[13px] text-text-mid">${v}</td></tr>`).join('');
+  document.getElementById('makerName').textContent=p.maker;
+  document.getElementById('makerLoc').textContent='📍 '+p.makerLoc;
+  document.getElementById('detailWishBtn').textContent=wishlist.has(p.id)?'❤️':'🤍';
+  document.getElementById('qtyInput').value=1;
+  const related=PRODUCTS.filter(x=>x.cat===p.cat&&x.id!==p.id).slice(0,4);
+  if(related.length<4) related.push(...PRODUCTS.filter(x=>x.id!==p.id&&!related.includes(x)).slice(0,4-related.length));
+  const catBg2={food:'#fff8e6',clay:'#fef0e3',craft:'#f0f4ff'};
+  document.getElementById('relatedGrid').innerHTML=related.map(rp=>{
+    const rd=Math.round((1-rp.price/rp.oldPrice)*100);
+    return `<div class="p-card bg-white rounded-[18px] border-2 border-border overflow-hidden cursor-pointer transition-all duration-[250ms] relative" data-cat="${rp.cat}" onclick="openDetail(${rp.id})">
+      <div class="p-card-img h-[210px] flex items-center justify-center text-[72px] relative" style="background:${catBg2[rp.cat]||'var(--color-green-pale)'}">
+        <span>${rp.emoji}</span>
+        ${rp.badge?`<span class="absolute top-3 left-3 text-[11px] font-bold px-2.5 py-1 rounded-md text-white" style="background:var(--color-accent)">${rp.badgeLabel}</span>`:''}
+      </div>
+      <div class="p-card-body p-4">
+        <div class="text-[11px] text-earth-mid font-semibold mb-1.5 uppercase tracking-[.5px]">📍 ${rp.village}</div>
+        <div class="font-noto text-[15px] font-bold text-text-dark mb-2 leading-[1.3]">${rp.name}</div>
+        <div class="text-xs text-star mb-2.5">${'★'.repeat(Math.round(rp.rating))}<span class="text-text-light"> (${rp.reviews})</span></div>
+        <div class="flex items-center justify-between pt-2.5 border-t border-border">
+          <div><span class="font-playfair text-xl font-bold text-green-deep">৳${rp.price.toLocaleString()}</span><span class="text-xs text-text-light line-through ml-1">৳${rp.oldPrice}</span></div>
+          <button class="btn-add-card bg-green-deep text-white border-none px-3.5 py-2 rounded-[9px] text-[13px] font-hind font-bold cursor-pointer transition-all duration-200" onclick="event.stopPropagation();addToCart(${rp.id})">+ কার্ট</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.tab-btn').classList.add('active');
+  document.getElementById('tab-desc').classList.add('active');
+  showPage('detail'); window.scrollTo({top:0,behavior:'smooth'});
+}
+function selectThumb(el,emoji){document.querySelectorAll('.g-thumb').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('mainEmoji').textContent=emoji;}
+function switchTab(id,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+id).classList.add('active');}
+function selectColor(name,el){document.querySelectorAll('.c-swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');document.getElementById('selectedColor').textContent=name;}
+function selectSize(size,el){if(el.classList.contains('out'))return;document.querySelectorAll('.v-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');document.getElementById('selectedSize').textContent=size;}
+function changeQty(delta){const inp=document.getElementById('qtyInput');let v=parseInt(inp.value)||1;v=Math.max(1,Math.min(10,v+delta));inp.value=v;}
+function toggleWish(){if(!currentProduct)return;const btn=document.getElementById('detailWishBtn');if(wishlist.has(currentProduct.id)){wishlist.delete(currentProduct.id);btn.textContent='🤍';showToast('💔 উইশলিস্ট থেকে সরানো হয়েছে');}else{wishlist.add(currentProduct.id);btn.textContent='❤️';showToast('❤️ উইশলিস্টে যোগ হয়েছে!');}}
+function toggleWishCard(id,btn){if(wishlist.has(id)){wishlist.delete(id);btn.textContent='🤍';btn.classList.remove('liked');}else{wishlist.add(id);btn.textContent='❤️';btn.classList.add('liked');showToast('❤️ উইশলিস্টে যোগ হয়েছে!');}}
+function detailAddToCart(){if(!currentProduct)return;const qty=parseInt(document.getElementById('qtyInput').value)||1;for(let i=0;i<qty;i++)addToCart(currentProduct.id);showToast('✅ '+currentProduct.name+' কার্টে যোগ হয়েছে!');}
+function addToCart(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const ex=cart.find(i=>i.id===id);if(ex)ex.qty++;else cart.push({...p,qty:1});updateCart();showToast('✅ '+p.name+' কার্টে যোগ হয়েছে!');}
+function updateCart(){
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartBadge').textContent=count;
+  document.getElementById('cartCountEl').textContent=count+'টি';
+  document.getElementById('cartSubtotal').textContent='৳'+total.toLocaleString();
+  document.getElementById('cartTotalEl').textContent='৳'+(total+60).toLocaleString();
+  const el=document.getElementById('cartItemsEl');
+  if(!cart.length){el.innerHTML='<div class="text-center py-[60px] px-5 text-text-light"><div class="text-[52px] mb-3">🛒</div><div class="font-noto text-base">কার্ট এখন খালি</div></div>';return;}
+  el.innerHTML=cart.map((item,i)=>`
+    <div class="flex gap-3.5 py-3.5 border-b border-border">
+      <div class="w-[60px] h-[60px] rounded-xl bg-earth-pale flex items-center justify-center text-[28px] flex-shrink-0">${item.emoji}</div>
+      <div class="flex-1">
+        <div class="font-noto text-sm font-bold mb-1">${item.name}</div>
+        <div class="text-[15px] font-bold text-green-deep">৳${(item.price*item.qty).toLocaleString()}</div>
+        <div class="flex items-center gap-2 mt-1.5">
+          <button class="ci-qty-btn w-[26px] h-[26px] border border-border bg-cream rounded-md text-sm font-bold cursor-pointer flex items-center justify-center transition-all duration-[150ms]" onclick="cQty(${i},-1)">−</button>
+          <span class="font-bold text-sm min-w-[20px] text-center">${item.qty}</span>
+          <button class="ci-qty-btn w-[26px] h-[26px] border border-border bg-cream rounded-md text-sm font-bold cursor-pointer flex items-center justify-center transition-all duration-[150ms]" onclick="cQty(${i},1)">+</button>
+          <button class="ci-remove ml-auto bg-transparent border-none text-base cursor-pointer text-text-light" onclick="removeCart(${i})">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function cQty(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);updateCart();}
+function removeCart(i){cart.splice(i,1);updateCart();}
+function openCart(){document.getElementById('cartPanel').classList.add('open');document.getElementById('cartOverlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeCart(){document.getElementById('cartPanel').classList.remove('open');document.getElementById('cartOverlay').classList.remove('open');document.body.style.overflow='';}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+name).classList.add('active');}
+let toastTimer;
+function showToast(msg){clearTimeout(toastTimer);const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');toastTimer=setTimeout(()=>t.classList.remove('show'),2600);}
+function openFilterDrawer(){document.getElementById('filterDrawer').classList.add('open');document.body.style.overflow='hidden';}
+function closeFilterDrawer(){document.getElementById('filterDrawer').classList.remove('open');document.body.style.overflow='';}
+
+renderProducts(PRODUCTS);
+</script>
+</body>
+</html>
