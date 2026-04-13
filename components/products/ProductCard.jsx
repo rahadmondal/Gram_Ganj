@@ -116,7 +116,7 @@ export default function ProductCard({ product }) {
                     {originName}
                 </div>
 
-                <Link href={`/${locale}/product/${slug}`}>
+                <Link href={`/product/${slug}`}>
                     <div className="font-noto text-[15px] font-bold text-gray-800 mb-0.5 leading-[1.3] truncate hover:text-green-700 transition-colors">
                         {productName}
                     </div>
